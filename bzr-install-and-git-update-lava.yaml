@@ -14,7 +14,7 @@ run:
         - cd /root
         - bzr branch lp:lava-deployment-tool
         - cd lava-deployment-tool
-        - bzr revert -r262
+        - bzr revert -r259 #2w62
         - export SKIP_ROOT_CHECK=yes
         - lava-test-case lava-run-setup --shell ./lava-deployment-tool setup -n
         - lava-test-case lava-run-install --shell ./lava-deployment-tool install production -n
