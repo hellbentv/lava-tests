@@ -5,7 +5,6 @@ metadata:
 
 install:
     deps:
-        - git-core
         - bzr
         - grep
         - curl
@@ -15,6 +14,7 @@ run:
         - bzr branch lp:lava-deployment-tool
         - cd lava-deployment-tool
         - bzr revert -r262
+        - export LAVA_BUILDOUT_CFG=buildout.cfg
         - export SKIP_ROOT_CHECK=yes
         - lava-test-case lava-run-setup --shell ./lava-deployment-tool setup -n
         - lava-test-case lava-run-install --shell ./lava-deployment-tool install production -n
