@@ -11,11 +11,11 @@ install:
 run:
     steps:
         - cd /root
-        - bzr branch lp:lava-deployment-tool
         - git clone http://git.linaro.org/git-ro/lava/lava-deployment-tool.git
         - cd /root/lava-deployment-tool
         - git checkout 3a781e9630b208f06b35352b5b04a658eb57cd14 # just moved to git
         - export SKIP_ROOT_CHECK=yes
+        - export LAVA_BUILDOUT_CFG=buildout.cfg
         - lava-test-case lava-run-setup --shell ./lava-deployment-tool setup -n
         - lava-test-case lava-run-install --shell ./lava-deployment-tool install production -n
         - curl -o test http://127.0.0.1
@@ -23,6 +23,7 @@ run:
         
         - cd /root/lava-deployment-tool
         - git checkout master 
+        - export LAVA_BUILDOUT_CFG=buildout.cfg
         - export SKIP_ROOT_CHECK=yes
         - lava-test-case lava-run-setup --shell ./lava-deployment-tool setup -n
         - lava-test-case lava-run-install --shell ./lava-deployment-tool install production -n
