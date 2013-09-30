@@ -32,7 +32,7 @@ run:
         - export SKIP_ROOT_CHECK=yes
         - lava-test-case lava-run-setup --shell ./lava-deployment-tool setup -n
         - echo beforeupdate********************************************
-        - lava-test-case lava-run-install --shell ./lava-deployment-tool update production -n
+        - lava-test-case lava-run-install --shell ./lava-deployment-tool upgrade production -n
         - echo afterupdate*********************************************
         - curl -o test http://127.0.0.1
         - lava-test-case lava-server-verification --shell grep LAVA test
