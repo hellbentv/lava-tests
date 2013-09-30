@@ -8,6 +8,8 @@ install:
         - bzr
         - grep
         - curl
+        - gettext
+        - msgfmt
 run:
     steps:
         - cd /root
