@@ -1,0 +1,14 @@
+metadata:
+  name: hacking-session
+  format: "Lava-Test-Shell Test Definition 1.0"
+  description: "SSH Hacking Session"
+  version: 1.0
+
+install:
+    deps:
+        - openssh-server
+        - wget
+run:
+  steps:
+    - ./setup_session 
+    - ./invoke_session

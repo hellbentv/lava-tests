@@ -1,0 +1,4 @@
+#!/bin/bash
+rm /run/hacking/hacking.pid
+rm ~/.ssh/authorized_keys
+pkill -f sshd
