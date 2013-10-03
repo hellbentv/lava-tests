@@ -1,0 +1,3 @@
+#!/bin/bash
+rm /run/hacking/hacking.pid
+kill $(ps -A | grep sshd: | grep -o '[0-9]*' | head -1)

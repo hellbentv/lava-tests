@@ -1,0 +1,9 @@
+#!/bin/bash
+# Usage ./setup_session <lp_username>
+
+chmod a+x stop_hacking
+cp oe-hacking/stop_hacking /bin/stop_hacking
+chmod a+x invoke_session
+cp oe-hacking/invoke_session /bin/invoke_session
+echo "root:lava"|chpasswd
+
