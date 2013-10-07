@@ -20,6 +20,7 @@ run:
         - curl -o test http://127.0.0.1
         - lava-test-case lava-server-verification --shell grep LAVA test
         
-        - service lava restart production
+        - export LAVA_INSTANCE=production
+        - service lava restart
         - curl -o test http://127.0.0.1
         - lava-test-case lava-server-verification --shell grep LAVA test
