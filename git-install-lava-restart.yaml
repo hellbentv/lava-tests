@@ -20,17 +20,17 @@ run:
         - echo "--------------------------------zz-install"
         - lava-test-case lava-run-install --shell ./lava-deployment-tool install production -n
         - curl -o test http://127.0.0.1
-        - lava-test-case lava-server-verification --shell grep LAVA test
+        - grep LAVA test
         
         - echo "--------------------------------zz-stop"
         - service lava stop
         - curl -o test http://127.0.0.1
-        - lava-test-case lava-server-verification --shell grep LAVA test
+        - grep LAVA test
 
         - echo "--------------------------------zz-start"
         - service lava start
         - curl -o test http://127.0.0.1
-        - lava-test-case lava-server-verification --shell grep LAVA test
+        - grep LAVA test
 
         - echo "--------------------------------zz-restart"
         - service lava restart
