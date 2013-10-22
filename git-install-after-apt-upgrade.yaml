@@ -13,7 +13,7 @@ run:
         - cd /root
         - git clone http://git.linaro.org/git-ro/lava/lava-deployment-tool.git
         - cd lava-deployment-tool
-        - # export LAVA_BUILDOUT_CFG=buildout.cfg
+        - echo "nop" # export LAVA_BUILDOUT_CFG=buildout.cfg
         - export SKIP_ROOT_CHECK=yes
         - apt-get upgrade -y
         - apt-get dist-upgrade -y
