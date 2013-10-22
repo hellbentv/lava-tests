@@ -15,7 +15,7 @@ run:
         - cd /root/lava-deployment-tool
         - git checkout 3a781e9630b208f06b35352b5b04a658eb57cd14 # just moved to git
         - export SKIP_ROOT_CHECK=yes
-        - # export LAVA_BUILDOUT_CFG=buildout.cfg  # setting this fetches the tip
+        - echo "nop" # export LAVA_BUILDOUT_CFG=buildout.cfg  # setting this fetches the tip
         - lava-test-case lava-run-setup --shell ./lava-deployment-tool setup -n
         - echo beforeinstall********************************************
         - lava-test-case lava-run-install --shell ./lava-deployment-tool install production -n
