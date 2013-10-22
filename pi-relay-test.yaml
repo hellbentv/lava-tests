@@ -4,9 +4,6 @@ metadata:
   description: "Pi Relay test"
   version: 1.0
 
-install:
-    deps: 
-        - openssh
 run:
   steps:
     - mkdir .ssh
