@@ -13,8 +13,8 @@ run:
     - mkdir ~/.ssh
     - wget http://homecloud/linaro/testkey/id_rsa -O ~/.ssh/id_rsa
     - chmod -R 600 ~/.ssh
-    - scp kiss-pirelay/setupgpio.sh pirelay01:/root/
-    - scp kiss-pirelay/gpio.sh pirelay01:/root/
+    - scp -o StrictHostKeyChecking=no kiss-pirelay/setupgpio.sh pirelay01:/root/
+    - scp -o StrictHostKeyChecking=no kiss-pirelay/gpio.sh pirelay01:/root/
     - ssh -o StrictHostKeyChecking=no pirelay01 "chmod +x /root/*.sh"
     - lava-test-case pirelay-setup ssh -o StrictHostKeyChecking=no pirelay01 "/bin/setupgpio.sh"
     - lava-test-case pirelay-port1on ssh -o StrictHostKeyChecking=no pirelay01 "port=1 value=on  /bin/gpio.sh"
