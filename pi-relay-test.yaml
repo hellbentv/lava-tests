@@ -6,8 +6,7 @@ metadata:
 
 run:
   steps:
-    - mkdir .ssh
-    - chmod 600 ~/.ssh
+    - mkdir ~/.ssh
     - wget http://homecloud/linaro/testkey/id_rsa -O ~/.ssh/id_rsa
     - chmod -R 600 ~/.ssh
     - scp kiss-pirelay/setupgpio.sh pirelay01:/root/
