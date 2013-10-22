@@ -1,0 +1,35 @@
+metadata:
+  name: pi-relay-test
+  format: "Lava-Test-Shell Test Definition 1.0"
+  description: "Pi Relay test"
+  version: 1.0
+
+install:
+    deps: 
+        - openssh
+run:
+  steps:
+    - mkdir .ssh
+    - chmod 600 ~/.ssh
+    - wget http://homecloud/linaro/testkey/id_rsa -O ~/.ssh/id_rsa
+    - chmod -R 600 ~/.ssh
+    - scp kiss-pirelay/setupgpio.sh pirelay01:/root/
+    - scp kiss-pirelay/gpio.sh pirelay01:/root/
+    - ssh -o StrictHostKeyChecking=no pirelay01 "chmod +x /root/*.sh"
+    - ssh -o StrictHostKeyChecking=no pirelay01 "/bin/setupgpio.sh"
+    - ssh -o StrictHostKeyChecking=no pirelay01 "port=1 value=on  /bin/gpio.sh"
+    - ssh -o StrictHostKeyChecking=no pirelay01 "port=2 value=on  /bin/gpio.sh"
+    - ssh -o StrictHostKeyChecking=no pirelay01 "port=3 value=on  /bin/gpio.sh"
+    - ssh -o StrictHostKeyChecking=no pirelay01 "port=4 value=on  /bin/gpio.sh"
+    - ssh -o StrictHostKeyChecking=no pirelay01 "port=5 value=on  /bin/gpio.sh"
+    - ssh -o StrictHostKeyChecking=no pirelay01 "port=6 value=on  /bin/gpio.sh"
+    - ssh -o StrictHostKeyChecking=no pirelay01 "port=7 value=on  /bin/gpio.sh"
+    - ssh -o StrictHostKeyChecking=no pirelay01 "port=8 value=on  /bin/gpio.sh"
+    - ssh -o StrictHostKeyChecking=no pirelay01 "port=1 value=off /bin/gpio.sh"
+    - ssh -o StrictHostKeyChecking=no pirelay01 "port=2 value=off /bin/gpio.sh"
+    - ssh -o StrictHostKeyChecking=no pirelay01 "port=3 value=off /bin/gpio.sh"
+    - ssh -o StrictHostKeyChecking=no pirelay01 "port=4 value=off /bin/gpio.sh"
+    - ssh -o StrictHostKeyChecking=no pirelay01 "port=5 value=off /bin/gpio.sh"
+    - ssh -o StrictHostKeyChecking=no pirelay01 "port=6 value=off /bin/gpio.sh"
+    - ssh -o StrictHostKeyChecking=no pirelay01 "port=7 value=off /bin/gpio.sh"
+    - ssh -o StrictHostKeyChecking=no pirelay01 "port=8 value=off /bin/gpio.sh"
