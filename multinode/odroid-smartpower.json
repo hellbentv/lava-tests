@@ -35,7 +35,7 @@
                 "testdef_repos": [
                     {
                         "git-repo": "https://github.com/hellbentv/lava-tests.git",
-                        "testdef": "odroid-smartpower-pirelay.yaml"
+                        "testdef": "multinode/odroid-smartpower-pirelay.yaml"
                     }
                 ],
                 "role" : "test"
@@ -47,7 +47,7 @@
                 "testdef_repos": [
                     {
                         "git-repo": "https://github.com/hellbentv/lava-tests.git",
-                        "testdef": "odroid-smartpower-measure.yaml"
+                        "testdef": "multinode/odroid-smartpower-measure.yaml"
                     }
                 ],
                 "role" : "measure"
