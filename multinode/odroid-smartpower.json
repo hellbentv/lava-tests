@@ -1,0 +1,66 @@
+{
+    "timeout": 90,
+    "job_name": "kvm-group-multinode test & measure pirelay01",
+    "logging_level": "INFO",
+    "device_group": [
+        {
+            "role": "test",
+            "count": 1,
+            "device_type": "kvm",
+            "tags": [
+                "akb-test"
+            ]
+        },
+        {
+            "role": "measure",
+            "count": 1,
+            "device_type": "kvm",
+            "tags": [
+                "akb-measure"
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "command": "deploy_linaro_kernel",
+            "parameters": {
+                "kernel": "http://homecloud/linaro/vmlinuz-3.5.0-17-generic",
+                "ramdisk": "http://homecloud/linaro/initrd.img-3.5.0-17-generic",
+                "rootfs": "http://homecloud/linaro/kvm-image.img.gz"
+            }
+        },
+        {
+            "command": "lava_test_shell",
+            "parameters": {
+                "testdef_repos": [
+                    {
+                        "git-repo": "https://github.com/hellbentv/lava-tests.git",
+                        "testdef": "odroid-smartpower-pirelay.yaml"
+                    }
+                ],
+                "role" : "test"
+            }
+        },
+        {
+            "command": "lava_test_shell",
+            "parameters": {
+                "testdef_repos": [
+                    {
+                        "git-repo": "https://github.com/hellbentv/lava-tests.git",
+                        "testdef": "odroid-smartpower-measure.yaml"
+                    }
+                ],
+                "role" : "measure"
+            }
+        },
+
+
+        {
+            "command": "submit_results",
+            "parameters": {
+                "server": "http://akbennett@ci.akb.net/RPC2/",
+                "stream": "/anonymous/akbennett/"
+            }
+        }
+    ]
+}

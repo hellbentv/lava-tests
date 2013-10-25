@@ -1,0 +1,42 @@
+metadata:
+  name: pi-relay-test
+  format: "Lava-Test-Shell Test Definition 1.0"
+  description: "Pi Relay test"
+  version: 1.0
+
+install:
+  deps:
+    - openssh-client
+
+run:
+  steps:
+    - mkdir ~/.ssh
+    - wget http://homecloud/linaro/testkey/id_rsa -O ~/.ssh/id_rsa
+    - chmod -R 600 ~/.ssh
+    - scp -o StrictHostKeyChecking=no kiss-pirelay/* pirelay01:/root/
+    - ssh -o StrictHostKeyChecking=no pirelay01 "chmod +x /root/*.sh"
+
+    - lava-test-case multinode-role-output --shell lava-role
+    - lava-test-case multinode-sync --shell lava-sync running
+
+    - lava-test-case pirelay-setup --shell ssh -o StrictHostKeyChecking=no pirelay01 "/root/setupgpio.sh"
+    - lava-test-case pirelay-port1on --shell ssh -o StrictHostKeyChecking=no pirelay01 "port=1 value=on  /root/gpio.sh"
+    - lava-test-case pirelay-port2on --shell ssh -o StrictHostKeyChecking=no pirelay01 "port=2 value=on  /root/gpio.sh"
+    - lava-test-case pirelay-port3on --shell ssh -o StrictHostKeyChecking=no pirelay01 "port=3 value=on  /root/gpio.sh"
+    - lava-test-case pirelay-port4on --shell ssh -o StrictHostKeyChecking=no pirelay01 "port=4 value=on  /root/gpio.sh"
+    - lava-test-case pirelay-port5on --shell ssh -o StrictHostKeyChecking=no pirelay01 "port=5 value=on  /root/gpio.sh"
+    - lava-test-case pirelay-port6on --shell ssh -o StrictHostKeyChecking=no pirelay01 "port=6 value=on  /root/gpio.sh"
+    - lava-test-case pirelay-port7on --shell ssh -o StrictHostKeyChecking=no pirelay01 "port=7 value=on  /root/gpio.sh"
+    - lava-test-case pirelay-port8on --shell ssh -o StrictHostKeyChecking=no pirelay01 "port=8 value=on  /root/gpio.sh"
+    - lava-test-case pirelay-port1off --shell ssh -o StrictHostKeyChecking=no pirelay01 "port=1 value=off /root/gpio.sh"
+    - lava-test-case pirelay-port2off --shell ssh -o StrictHostKeyChecking=no pirelay01 "port=2 value=off /root/gpio.sh"
+    - lava-test-case pirelay-port3off --shell ssh -o StrictHostKeyChecking=no pirelay01 "port=3 value=off /root/gpio.sh"
+    - lava-test-case pirelay-port4off --shell ssh -o StrictHostKeyChecking=no pirelay01 "port=4 value=off /root/gpio.sh"
+    - lava-test-case pirelay-port5off --shell ssh -o StrictHostKeyChecking=no pirelay01 "port=5 value=off /root/gpio.sh"
+    - lava-test-case pirelay-port6off --shell ssh -o StrictHostKeyChecking=no pirelay01 "port=6 value=off /root/gpio.sh"
+    - lava-test-case pirelay-port7off --shell ssh -o StrictHostKeyChecking=no pirelay01 "port=7 value=off /root/gpio.sh"
+    - lava-test-case pirelay-port8off --shell ssh -o StrictHostKeyChecking=no pirelay01 "port=8 value=off /root/gpio.sh"
+    - lava-test-case pirelay-setup --shell ssh -o StrictHostKeyChecking=no pirelay01 "/root/test_cyclegpios.sh"
+
+    - lava-test-case multinode-sync --shell lava-sync done
+    

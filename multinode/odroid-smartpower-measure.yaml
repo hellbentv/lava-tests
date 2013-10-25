@@ -1,0 +1,28 @@
+metadata:
+  name: odroid-smartpower
+  format: "Lava-Test-Shell Test Definition 1.0"
+  description: "Odroid SmartPower measurement"
+  version: 1.0
+
+install:
+  deps:
+    - openssh-client
+
+run:
+  steps:
+    - mkdir ~/.ssh
+    - wget http://homecloud/linaro/testkey/id_rsa -O ~/.ssh/id_rsa
+    - chmod -R 600 ~/.ssh
+
+    - lava-test-case multinode-role-output --shell lava-role
+    - lava-test-case multinode-sync --shell lava-sync running
+
+    - ssh hasdell "/bin/rm -f /tmp/outputfile"
+    - ssh hasdell "smartpower /tmp/outputfile"
+
+    - lava-test-case multinode-role-output --shell lava-role
+    - lava-test-case multinode-sync --shell lava-sync done
+    
+    - ssh hasdell "kill `pidof smartpower`"
+    - ssh hasdell "cat /tmp/outputfile"
+
