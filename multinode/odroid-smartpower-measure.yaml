@@ -18,7 +18,7 @@ run:
     - lava-test-case multinode-sync --shell lava-sync running
 
     - ssh -o StrictHostKeyChecking=no hasdell "/bin/rm -f /tmp/outputfile"
-    - ssh -o StrictHostKeyChecking=no hasdell "smartpower /tmp/outputfile&"
+    - ssh -o StrictHostKeyChecking=no hasdell "nohup smartpower /tmp/outputfile&"
 
     - lava-test-case multinode-role-output --shell lava-role
     - lava-test-case multinode-sync --shell lava-sync done
