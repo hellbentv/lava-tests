@@ -17,12 +17,12 @@ run:
     - lava-test-case multinode-role-output --shell lava-role
     - lava-test-case multinode-sync --shell lava-sync running
 
-    - ssh hasdell "/bin/rm -f /tmp/outputfile"
-    - ssh hasdell "smartpower /tmp/outputfile"
+    - ssh -o StrictHostKeyChecking=no hasdell "/bin/rm -f /tmp/outputfile"
+    - ssh -o StrictHostKeyChecking=no hasdell "smartpower /tmp/outputfile"
 
     - lava-test-case multinode-role-output --shell lava-role
     - lava-test-case multinode-sync --shell lava-sync done
     
-    - ssh hasdell "kill `pidof smartpower`"
-    - ssh hasdell "cat /tmp/outputfile"
+    - ssh -o StrictHostKeyChecking=no hasdell "kill `pidof smartpower`"
+    - ssh -o StrictHostKeyChecking=no hasdell "cat /tmp/outputfile"
 
