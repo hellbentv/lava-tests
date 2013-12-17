@@ -1,14 +1,27 @@
 metadata:
-  name: kvm-checkbox
-  format: "Lava-Test-Shell Test Definition 1.0"
-  description: "KVM Checkbox test"
-  version: 1.0
+    name: plainbox
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Wrapper for running plainbox/checkbox in LAVA. 
+                  For the documentation on painbox, check: plainbox.rtfd.org"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - arndale
+        - panda
+        - beaglebone-black
+        - highbank
+    scope:
+        - functional
 
 install:
-  deps:
-    - checkbox
+        - echo "deb http://ppa.launchpad.net/checkbox-dev/ppa/ubuntu saucy main" >> /etc/apt/sources.list
+        - apt-get -y update
+        - apt-get -y install plainbox plainbox-provider-checkbox plainbox-provider-resource-generic
 
 run:
-  steps:
-    - lava-test-case boot --shell ls -al"
-    
+    steps:
+        - plainbox run --whitelist=/usr/lib/plainbox-providers-1/checkbox/whitelists/smoke.whitelist -f rfc822 -o plainbox-result.txt --not-interactive
+        - cat plainbox-result.txt
+        - lava-test-case plainbox --pass
