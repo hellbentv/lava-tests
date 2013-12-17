@@ -2,7 +2,7 @@ metadata:
     name: plainbox
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Wrapper for running plainbox/checkbox in LAVA. 
-                  For the documentation on painbox, check: plainbox.rtfd.org"
+                  For the documentation on plainbox, check: plainbox.rtfd.org"
     os:
         - ubuntu
     devices:
@@ -20,7 +20,7 @@ run:
         - cat plainbox-result.txt
 
 parse:
-    pattern: "^(?P<test_case_id>[a-zA-Z]+):\\s+(?P<result>[not-supported|pass|fail|undecided])"
+    pattern: "^(?P<test_case_id>[a-zA-Z]+):\\s+(?P<result>[not\-supported|pass|fail|undecided])"
     fixupdict:
         not-supported: skip
         pass: pass
