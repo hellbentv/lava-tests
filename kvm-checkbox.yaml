@@ -1,0 +1,14 @@
+metadata:
+  name: kvm-checkbox
+  format: "Lava-Test-Shell Test Definition 1.0"
+  description: "KVM Checkbox test"
+  version: 1.0
+
+install:
+  deps:
+    - checkbox
+
+run:
+  steps:
+    - lava-test-case boot --shell ls -al"
+    
