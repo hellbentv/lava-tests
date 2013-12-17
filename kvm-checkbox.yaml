@@ -3,15 +3,10 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Wrapper for running plainbox/checkbox in LAVA. 
                   For the documentation on painbox, check: plainbox.rtfd.org"
-    maintainer:
-        - milosz.wasilewski@linaro.org
     os:
         - ubuntu
     devices:
-        - arndale
-        - panda
-        - beaglebone-black
-        - highbank
+        - kvm
     scope:
         - functional
 
