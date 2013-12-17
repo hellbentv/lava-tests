@@ -20,7 +20,7 @@ run:
         - cat plainbox-result.txt
 
 parse:
-    pattern: "^(?P<test_case_id>[a-zA-Z]+):\\s+(?P<result>[not\-supported|pass|fail|undecided])"
+    pattern: "^(?P<test_case_id>[a-zA-Z]+):\\s+(?P<result>.*)"
     fixupdict:
         not-supported: skip
         pass: pass
