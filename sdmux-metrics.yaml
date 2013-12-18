@@ -1,0 +1,19 @@
+metadata:
+    name: sdmux-metrics
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "A few tests to test performance
+                  of the LMP SDMux over time"
+    os:
+        - oe
+    devices:
+        - beagleboneblack
+    scope:
+        - functional
+
+run:
+    steps:
+        - badblocks /dev/sda
+
+parse:
+    pattern: "^(?P<test_case_id>[a-zA-Z]+):\\s+(?P<result>.*)"
+    
