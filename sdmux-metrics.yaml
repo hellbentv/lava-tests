@@ -6,14 +6,30 @@ metadata:
     os:
         - oe
     devices:
-        - beagleboneblack
+        - beagleboneblack-sdmux
     scope:
         - functional
 
 run:
     steps:
-        - badblocks /dev/sda
+        - start=`date +"%s"`
+        - dd if=/dev/urandom of=/tmpfile bs=1M count=100
+        - echo LAVA__100MB-write: $((`date +"%s"`-start))
+        - echo LAVA__mmcblk0-size: `cat /sys/block/mmcblk0/size`
+        - echo LAVA__mmcblk0p1-size: `cat /sys/block/mmcblk0/mmcblk0p1/size`
+        - echo LAVA__mmcblk0p2-size: `cat /sys/block/mmcblk0/mmcblk0p2/size`
+        - echo LAVA__mmcblk1-size: `cat /sys/block/mmcblk1/size`
+        - echo LAVA__mmcblk1p1-size: `cat /sys/block/mmcblk1/mmcblk1p1/size`
+        - echo LAVA__mmcblk1p2-size: `cat /sys/block/mmcblk1/mmcblk1p2/size`
+        - cp -avr fio/armhf/* /
+        - iozone/iozone -a -g 1024 -+n -y 64 -q 256 -b output.xls
+        - lava-test-case-attach test-attach output.xls application/xls
+        - fio --name=LAVA__randwrite-avg-bandwidth --rw=randwrite -- size=64m --minimal |cut -d";" -f3,86
+        - fio --name=LAVA__randwrite-min-bandwidth --rw=randwrite -- size=64m --minimal |cut -d";" -f3,83
+        - fio --name=LAVA__randwrite-max-bandwidth --rw=randwrite -- size=64m --minimal |cut -d";" -f3,84
+        - fio --name=LAVA__randwrite-cpu-usage --rw=randwrite -- size=64m --minimal |cut -d";" -f3,88
+
 
 parse:
-    pattern: "^(?P<test_case_id>[a-zA-Z]+):\\s+(?P<result>.*)"
+    pattern: "^LAVA:\\s(?P<test_case_id>[a-zA-Z0-9_\\-/]+):\\s+(?P<result>[a-zA-Z\\-]+)"
     
