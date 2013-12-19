@@ -17,11 +17,11 @@ run:
         - apt-get -y update
         - apt-get -y install plainbox plainbox-provider-checkbox plainbox-provider-resource-generic
         - plainbox run --whitelist=/usr/lib/plainbox-providers-1/checkbox/whitelists/smoke.whitelist -f text -o plainbox-result.txt --not-interactive
-        - sed -i -e 's/^/LAVA/' plainbox-result.txt
+        - sed -i -e 's/^/LAVA: /' plainbox-result.txt
         - cat plainbox-result.txt
 
 parse:
-    pattern: "^LAVA(?P<test_case_id>[a-zA-Z0-9_\\-/]+):\\s+(?P<result>[a-zA-Z\\-]+)"
+    pattern: "^LAVA:\\s(?P<test_case_id>[a-zA-Z0-9_\\-/]+):\\s+(?P<result>[a-zA-Z\\-]+)"
     fixupdict:
         not-supported: skip
         pass: pass
