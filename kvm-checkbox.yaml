@@ -21,7 +21,7 @@ run:
         - cat plainbox-result.txt
 
 parse:
-    pattern: "^LAVA(?P<test_case_id>[a-zA-Z_\-/]+):\\s+(?P<result>.*)"
+    pattern: "^LAVA(?P<test_case_id>[a-zA-Z0-9_\\-/]+):\\s+(?P<result>[a-zA-Z\\-]+)"
     fixupdict:
         not-supported: skip
         pass: pass
