@@ -31,5 +31,5 @@ run:
         
 
 parse:
-    pattern: "^LAVA__(?P<test_case_id>[a-zA-Z0-9_\\-/]+)__(?P<units>[a-zA-Z].+)__(?P<units>[a-zA-Z].+)__(?P<measurement>[a-zA-Z\\-]+)"
+    pattern: "^LAVA__(?P<test_case_id>[a-zA-Z0-9_\\-/]+)__(?P<units>[a-zA-Z].+)__(?P<result>[a-zA-Z].+)__(?P<measurement>[a-zA-Z\\-]+)"
     
