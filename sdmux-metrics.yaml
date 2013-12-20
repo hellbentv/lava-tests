@@ -15,7 +15,7 @@ run:
         - echo THISISATEST
         - "start=`date +"%s"`"
         - dd if=/dev/urandom of=/tmpfile bs=1M count=100
-        - "echo LAVA__100MB-write: $((`date +"%s"`-start))"
+        - "echo LAVA__100MB-write: $((`date +\"%s\"`-start))"
         - "echo LAVA__mmcblk0-size: `cat /sys/block/mmcblk0/size`"
         - "echo LAVA__mmcblk0p1-size: `cat /sys/block/mmcblk0/mmcblk0p1/size`"
         - "echo LAVA__mmcblk0p2-size: `cat /sys/block/mmcblk0/mmcblk0p2/size`"
