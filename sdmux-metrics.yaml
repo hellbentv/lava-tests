@@ -28,8 +28,7 @@ run:
         - "/usr/bin/fio --name=LAVA__randwrite-avg-bandwidth --rw=randwrite --size=64m --minimal |cut -d';' -f3,86"
         - "/usr/bin/fio --name=LAVA__randwrite-min-bandwidth --rw=randwrite --size=64m --minimal |cut -d';' -f3,83"
         - "/usr/bin/fio --name=LAVA__randwrite-max-bandwidth --rw=randwrite --size=64m --minimal |cut -d';' -f3,84"
-        - "/usr/bin/fio --name=LAVA__randwrite-cpu-usage     --rw=randwrite --size=64m --minimal |cut -d';' -f3,88"
-
+        
 
 parse:
     pattern: "^LAVA__(?P<test_case_id>[a-zA-Z0-9_\\-/]+):\\s+(?P<measurement>[a-zA-Z\\-]+)"
