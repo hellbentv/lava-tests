@@ -25,7 +25,7 @@ run:
         - cp -avr fio/armhf/* /
         - iozone/armhf/iozone -a -g 1024 -+n -y 64 -q 256 -b output.xls
         - find
-        - lava-test-case-attach test-attach iozone/armhf/output.xls application/xls
+        - lava-test-case-attach test-attach ./output.xls application/xls
         - "fio --name=LAVA__randwrite-avg-bandwidth --rw=randwrite -- size=64m --minimal |cut -d\";\" -f3,86"
         - "fio --name=LAVA__randwrite-min-bandwidth --rw=randwrite -- size=64m --minimal |cut -d\";\" -f3,83"
         - "fio --name=LAVA__randwrite-max-bandwidth --rw=randwrite -- size=64m --minimal |cut -d\";\" -f3,84"
