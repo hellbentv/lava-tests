@@ -15,21 +15,21 @@ run:
         - echo THISISATEST
         - "start=`date +\"%s\"`"
         - dd if=/dev/urandom of=/tmpfile bs=1M count=100
-        - "echo LAVA__100MB-write: $((`date +\"%s\"`-start))"
-        - "echo LAVA__mmcblk0-size: `cat /sys/block/mmcblk0/size`"
-        - "echo LAVA__mmcblk0p1-size: `cat /sys/block/mmcblk0/mmcblk0p1/size`"
-        - "echo LAVA__mmcblk0p2-size: `cat /sys/block/mmcblk0/mmcblk0p2/size`"
-        - "echo LAVA__mmcblk1-size: `cat /sys/block/mmcblk1/size`"
-        - "echo LAVA__mmcblk1p1-size: `cat /sys/block/mmcblk1/mmcblk1p1/size`"
-        - "echo LAVA__mmcblk1p2-size: `cat /sys/block/mmcblk1/mmcblk1p2/size`"
+        - "echo LAVA__kb__pass__100MB-write: $((`date +\"%s\"`-start))"
+        - "echo LAVA__kb__pass__mmcblk0-size: `cat /sys/block/mmcblk0/size`"
+        - "echo LAVA__kb__pass__mmcblk0p1-size: `cat /sys/block/mmcblk0/mmcblk0p1/size`"
+        - "echo LAVA__kb__pass__mmcblk0p2-size: `cat /sys/block/mmcblk0/mmcblk0p2/size`"
+        - "echo LAVA__kb__pass__mmcblk1-size: `cat /sys/block/mmcblk1/size`"
+        - "echo LAVA__kb__pass__mmcblk1p1-size: `cat /sys/block/mmcblk1/mmcblk1p1/size`"
+        - "echo LAVA__kb__pass__mmcblk1p2-size: `cat /sys/block/mmcblk1/mmcblk1p2/size`"
         - iozone/armhf/iozone -a -g 1024 -+n -y 64 -q 256 -b output.xls
         - lava-test-case-attach test-attach ./output.xls application/xls
         - cp -avr fio/armhf/* /
-        - "/usr/bin/fio --name=LAVA__randwrite-avg-bandwidth --rw=randwrite --size=64m --minimal |cut -d';' -f3,86"
-        - "/usr/bin/fio --name=LAVA__randwrite-min-bandwidth --rw=randwrite --size=64m --minimal |cut -d';' -f3,83"
-        - "/usr/bin/fio --name=LAVA__randwrite-max-bandwidth --rw=randwrite --size=64m --minimal |cut -d';' -f3,84"
+        - "/usr/bin/fio --name=LAVA__kb__pass__randwrite-avg-bandwidth --rw=randwrite --size=64m --minimal |cut -d';' -f3,86"
+        - "/usr/bin/fio --name=LAVA__kb__pass__randwrite-min-bandwidth --rw=randwrite --size=64m --minimal |cut -d';' -f3,83"
+        - "/usr/bin/fio --name=LAVA__kb__pass__randwrite-max-bandwidth --rw=randwrite --size=64m --minimal |cut -d';' -f3,84"
         
 
 parse:
-    pattern: "^LAVA__(?P<test_case_id>[a-zA-Z0-9_\\-/]+):\\s+(?P<measurement>[a-zA-Z\\-]+)"
+    pattern: "^LAVA__(?P<test_case_id>[a-zA-Z0-9_\\-/]+)__(?P<units>[a-zA-Z].+)__(?P<units>[a-zA-Z].+)__(?P<measurement>[a-zA-Z\\-]+)"
     
