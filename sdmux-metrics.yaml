@@ -12,6 +12,7 @@ metadata:
 
 run:
     steps:
+        - echo THISISATEST
         - start=`date +"%s"`
         - dd if=/dev/urandom of=/tmpfile bs=1M count=100
         - echo LAVA__100MB-write: $((`date +"%s"`-start))
