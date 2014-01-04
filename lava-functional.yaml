@@ -1,0 +1,45 @@
+metadata:
+    name: git-install-lava
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test LAVA installation using git"
+
+install:
+    deps:
+        - git-core
+        - grep
+        - curl
+        - lava-tool
+params:
+    LAVA_SERVER: http://ci.akb.net
+    LAVA_USER_SERVER: http://admin@ci.akb.net
+    BUNDLE_STREAM: anonymous/akbennett
+    
+ run:
+    steps:
+        - git clone http://staging.git.linaro.org/git-ro/lava-team/lava-functional-tests.git
+
+        - lava_job=lava-functional-tests/single-node-job/master/master-job-defined-boot-cmds-android.json
+        
+        - sed -i "s#LAVA_SERVER#$LAVA_USER_SERVER/RPC2/#g" $lava_job
+        - sed -i "s#BUNDLE_STREAM#$bundle_stream#g" $lava_job
+
+        - cat $lava_job
+
+        - echo $lava_server
+
+        - job_id=$(lava-tool submit-job $LAVA_USER_SERVER/RPC2/ $lava_job | grep -o '[0-9]*' | head -1)
+
+        - echo http://$lava_server/scheduler/job/$job_id
+
+        - while lava-tool job-status $LAVA_USER_SERVER/RPC2/ $job_id | grep -e 'Running' -e 'Submitted'
+        - do
+        - sleep $(( $RANDOM % 120 ))
+        - done
+
+        - if lava-tool job-status $LAVA_USER_SERVER/RPC2/ $job_id | grep Complete
+        - then
+        - exit 0
+        - else
+        - exit 1
+        - fi
+        
