@@ -26,8 +26,9 @@ run:
         - ln -s /root/lava-server /srv/lava/instances/testrig/code/current/local/
         - cd /srv/lava/instances/testrig/code/current
         - ./bin/buildout
-        - sudo stop lava LAVA_INSTANCE=testrig
-        - sudo start lava LAVA_INSTANCE=testrig
         - git config --global http.SSLVerify no
         - cd /root/lava-server
         - git fetch https://review.linaro.org/lava/lava-server refs/changes/87/787/2 && git checkout FETCH_HEAD
+        - sudo stop lava LAVA_INSTANCE=testrig
+        - sudo start lava LAVA_INSTANCE=testrig
+        
