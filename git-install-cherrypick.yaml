@@ -17,6 +17,7 @@ run:
         - export SKIP_ROOT_CHECK=yes
         - lava-test-case lava-run-setup --shell ./lava-deployment-tool setup -n
         - lava-test-case lava-run-install --shell ./lava-deployment-tool install testrig -n
+        - a2dissite default && service apache2 reload
         - curl -o test http://127.0.0.1
         - lava-test-case lava-server-verification --shell grep LAVA test
         
