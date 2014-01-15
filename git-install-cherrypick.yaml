@@ -15,7 +15,7 @@ install:
 run:
     steps:
         - cd /root
-        - git clone http://git.linaro.org/git-ro/lava/lava-deployment-tool.git
+        - git clone http://git.linaro.org/lava/lava-deployment-tool.git
         - cd lava-deployment-tool
         - export LAVA_BUILDOUT_CFG=buildout.cfg
         - export SKIP_ROOT_CHECK=yes
@@ -32,12 +32,12 @@ run:
         - ./bin/buildout
         - git config --global http.SSLVerify no
         - cd /root/$PROJECT
-        - echo Applying $REPO $REF Cherry-pick
+        - echo 8888888888 Applying $REPO $REF Cherry-pick 8888888888
         - git fetch $REPO $REF
-        - git cherry-pick FETCH_HEAD
-        - sudo stop lava LAVA_INSTANCE=testrig
-        - sudo start lava LAVA_INSTANCE=testrig
+        - lava-test-case lava-apply-cherry-pick --shell git cherry-pick FETCH_HEAD
+        - stop lava LAVA_INSTANCE=testrig
+        - start lava LAVA_INSTANCE=testrig
         - curl -o test http://127.0.0.1
-        - lava-test-case lava-server-verification --shell grep LAVA test
+        - lava-test-case lava-server-verification2 --shell grep LAVA test
         
         
