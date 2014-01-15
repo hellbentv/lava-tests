@@ -2,6 +2,9 @@ metadata:
     name: git-install-cherrypick-lava
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Test LAVA installation using git"
+params:
+    PROJECT: none
+    CHERRYPICK: none
 
 install:
     deps:
@@ -22,13 +25,16 @@ run:
         - lava-test-case lava-server-verification --shell grep LAVA test
         
         - cd /root
-        - git clone http://git.linaro.org/git/lava/lava-server.git
-        - ln -s /root/lava-server /srv/lava/instances/testrig/code/current/local/
+        - git clone http://git.linaro.org/git/lava/$PROJECT.git
+        - ln -s /root/$PROJECT /srv/lava/instances/testrig/code/current/local/
         - cd /srv/lava/instances/testrig/code/current
         - ./bin/buildout
         - git config --global http.SSLVerify no
-        - cd /root/lava-server
-        - git fetch https://review.linaro.org/lava/lava-server refs/changes/87/787/2 && git cherry-pick FETCH_HEAD
+        - cd /root/$PROJECT
+        - $CHERRYPICK
         - sudo stop lava LAVA_INSTANCE=testrig
         - sudo start lava LAVA_INSTANCE=testrig
+        - curl -o test http://127.0.0.1
+        - lava-test-case lava-server-verification --shell grep LAVA test
+        
         
