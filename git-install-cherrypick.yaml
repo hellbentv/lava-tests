@@ -32,7 +32,7 @@ run:
         - ./bin/buildout
         - git config --global http.SSLVerify no
         - cd /root/$PROJECT
-        - echo 8888888888 Applying $REPO $REF Cherry-pick 8888888888
+        - echo 8888888888 $PROJECT $REPO $REF 8888888888
         - git fetch $REPO $REF
         - lava-test-case lava-apply-cherry-pick --shell git cherry-pick FETCH_HEAD
         - stop lava LAVA_INSTANCE=testrig
