@@ -4,8 +4,9 @@ metadata:
     description: "Test LAVA installation using git"
 params:
     PROJECT: none
-    CHERRYPICK: none
-
+    REPO: none
+    REF: none
+    
 install:
     deps:
         - git-core
@@ -31,7 +32,9 @@ run:
         - ./bin/buildout
         - git config --global http.SSLVerify no
         - cd /root/$PROJECT
-        - $CHERRYPICK
+        - echo Applying $REPO $REF Cherry-pick
+        - git fetch $REPO $REF
+        - git cherry-pick FETCH_HEAD
         - sudo stop lava LAVA_INSTANCE=testrig
         - sudo start lava LAVA_INSTANCE=testrig
         - curl -o test http://127.0.0.1
