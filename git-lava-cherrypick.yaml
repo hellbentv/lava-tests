@@ -1,7 +1,7 @@
 metadata:
     name: git-apply-cherrypick
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test LAVA installation using git"
+    description: "Apply a cherry-pick identified by REPO and REF to lava project PROJECT"
 params:
     PROJECT: none
     REPO: none
