@@ -15,17 +15,20 @@ install:
 run:
     steps:
         - echo 8888888888 $PROJECT $REPO $REF 8888888888
-        - cd /root
+        - useradd lava -p lava -m
+        - echo "lava ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
+        - sudo -u lava -H bash
+        - cd ~
         - git clone http://git.linaro.org/git/lava/$PROJECT.git
-        - ln -s /root/$PROJECT /srv/lava/instances/testrig/code/current/local/
+        - ln -s /srv/development/$PROJECT /srv/lava/instances/testrig/code/current/local/$PROJECT
         - cd /srv/lava/instances/testrig/code/current
-        - ./bin/buildout
-        - git config --global http.SSLVerify no
+        - sudo ./bin/buildout
         - cd /root/$PROJECT
+        - git config --global http.SSLVerify no
         - git fetch $REPO $REF
         - lava-test-case lava-apply-cherry-pick --shell git cherry-pick FETCH_HEAD
-        - stop lava 
-        - start lava 
+        - sudo stop lava 
+        - sudo start lava 
         - curl -o test2 http://127.0.0.1
         - lava-test-case lava-server-verification2 --shell grep LAVA test2
         
