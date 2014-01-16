@@ -4,7 +4,6 @@ metadata:
     description: "Test LAVA master installation in a 12.04 Server KVM using git with smart http"
 params:
     INSTANCE: production
-
 install:
     deps:
         - git-core
