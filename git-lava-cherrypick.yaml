@@ -3,6 +3,7 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Apply a cherry-pick identified by REPO and REF to lava project PROJECT"
 params:
+    INSTANCE: production
     PROJECT: none
     REPO: none
     REF: none
@@ -19,8 +20,8 @@ run:
         - sudo -u lava -H bash
         - cd ~
         - git clone http://git.linaro.org/git/lava/$PROJECT.git
-        - ln -s /srv/development/$PROJECT /srv/lava/instances/testrig/code/current/local/$PROJECT
-        - cd /srv/lava/instances/testrig/code/current
+        - ln -s ~/$PROJECT/ /srv/lava/instances/$INSTANCE/code/current/local/$PROJECT/
+        - cd /srv/lava/instances/$INSTANCE/code/current
         - sudo ./bin/buildout
         - cd /root/$PROJECT
         - git config --global http.SSLVerify no
