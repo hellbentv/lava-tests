@@ -6,7 +6,6 @@ params:
     PROJECT: none
     REPO: none
     REF: none
-    
 install:
     deps:
         - git-core
