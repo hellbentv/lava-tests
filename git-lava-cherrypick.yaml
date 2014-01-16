@@ -17,18 +17,12 @@ run:
         - echo 8888888888 $PROJECT $REPO $REF 8888888888
         - useradd lava -p lava -m
         - echo "lava ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
-        - sudo -u lava -H bash
-        - cd ~
-        - git clone http://git.linaro.org/git/lava/$PROJECT.git
-        - ln -s ~/$PROJECT/ /srv/lava/instances/$INSTANCE/code/current/local/$PROJECT/
-        - cd /srv/lava/instances/$INSTANCE/code/current
-        - sudo ./bin/buildout
-        - cd /root/$PROJECT
-        - git config --global http.SSLVerify no
-        - git fetch $REPO $REF
-        - lava-test-case lava-apply-cherry-pick --shell git cherry-pick FETCH_HEAD
-        - sudo stop lava 
-        - sudo start lava 
+        - su - lava - c "git clone http://git.linaro.org/git/lava/$PROJECT.git"
+        - ln -s ~lava/$PROJECT/ /srv/lava/instances/$INSTANCE/code/current/local/$PROJECT
+        - su - lava -c "cd /srv/lava/instances/$INSTANCE/code/current; sudo ./bin/buildout"
+        - su - lava -c "cd $PROJECT; git fetch $REPO $REF; git cherry-pick FETCH_HEAD"
+        - stop lava 
+        - start lava 
         - curl -o test2 http://127.0.0.1
         - lava-test-case lava-server-verification2 --shell grep LAVA test2
         
