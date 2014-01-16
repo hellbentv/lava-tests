@@ -1,5 +1,5 @@
 metadata:
-    name: git-apply-cherrypick
+    name: git-lava-cherrypick
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Apply a cherry-pick identified by REPO and REF to lava project PROJECT"
 params:
