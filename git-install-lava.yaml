@@ -3,7 +3,7 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Test LAVA master installation in a 12.04 Server KVM using git with smart http"
 params:
-    "INSTANCE": "production"
+    INSTANCE: production
 
 install:
     deps:
