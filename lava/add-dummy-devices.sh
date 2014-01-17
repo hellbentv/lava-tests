@@ -3,8 +3,10 @@
 #    $2 - dummy driver {schroot|host}
 #    $3 - number of devices
 LAVA_INSTANCE=$1
-driver=$2
-numdevices=$3
+ADMINUSER=$2
+ADMINPASS=$3
+driver=$4
+numdevices=$5
 
 #add a new dummy-devicetype.conf file
 mkdir -p /srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/device-types
@@ -16,6 +18,7 @@ EOL
 #show files
 head -n 1000 /srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/device-types/dummy-$driver.conf
 
+
 # Create N dummy-devicetype-driver-$i devices
 for i in $(seq 1 $numdevices); do
 mkdir -p /srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/devices
@@ -23,6 +26,7 @@ cat > /srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/devices/dummy-$driv
 #/srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/devices/dummy-$driver-$i.conf
 device_type = dummy-$driver
 EOL
+./lava/add-dashboard-devices.sh $ADMINUSER $ADMINPASS dummy-$driver dummy-$driver-$i
 done
 #show files
 head -n 1000 /srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/devices/dummy-$driver-*
