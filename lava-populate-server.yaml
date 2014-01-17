@@ -23,4 +23,6 @@ run:
         - echo POPULATELAVA Add some dummy devices
         - ./lava/add-dummy-devices.sh $INSTANCE host 4
         - ./lava/add-dummy-devices.sh $INSTANCE schroot 4
+        - /srv/lava/instances/$INSTANCE/bin/lava dashboard make-stream --dashboard-url http://localhost/RPC2/ /anonymous/sandbox
+
         
