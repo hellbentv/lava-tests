@@ -27,6 +27,8 @@ cat > /srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/devices/dummy-$driv
 device_type = dummy-$driver
 EOL
 ./lava/add-dashboard-devices.sh $ADMINUSER $ADMINPASS dummy-$driver dummy-$driver-$i
+
+./lava/test-job.sh dummy-$driver-$i 10
 done
 #show files
 head -n 1000 /srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/devices/dummy-$driver-*
