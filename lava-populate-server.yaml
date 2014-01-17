@@ -17,7 +17,7 @@ run:
         - echo POPULATELAVA Add $TARGETCOUNT $DEVICE_TYPE to instance $INSTANCE
         - ./lava/add-kvm-devices.sh $INSTANCE $ADMINUSER $ADMINPASS $DEVICE_TYPE $TARGETCOUNT
         - echo POPULATELAVA NOT ADDING $TARGETCOUNT dummy-host devices
-        - #/lava/add-dummy-devices.sh $INSTANCE $ADMINUSER $ADMINPASS host $TARGETCOUNT
+        - echo /lava/add-dummy-devices.sh $INSTANCE $ADMINUSER $ADMINPASS host $TARGETCOUNT
         - echo POPULATELAVA Add $TARGETCOUNT dummy-schroot devices
         - ./lava/add-dummy-devices.sh $INSTANCE $ADMINUSER $ADMINPASS schroot $TARGETCOUNT
         - echo POPULATELAVA Add $TARGETCOUNT dummy-ssh devices
