@@ -18,11 +18,11 @@ run:
         - export SKIP_ROOT_CHECK=yes
         - echo POPULATELAVA Add user $ADMINUSER:$ADMINPASS to instance $INSTANCE
         - ./lava/create-superuser.sh $INSTANCE $ADMINUSER $ADMINPASS
+        - /srv/lava/instances/$INSTANCE/bin/lava dashboard make-stream --dashboard-url http://localhost/RPC2/ /anonymous/sandbox
         - echo POPULATELAVA Add $NUMKVMS $DEVICE_TYPE to instance $INSTANCE
         - ./lava/add-kvm-devices.sh $INSTANCE $DEVICE_TYPE $ADMINUSER $ADMINPASS $NUMKVMS
         - echo POPULATELAVA Add some dummy devices
         - ./lava/add-dummy-devices.sh $INSTANCE $ADMINUSER $ADMINPASS host 4
         - ./lava/add-dummy-devices.sh $INSTANCE $ADMINUSER $ADMINPASS schroot 4
-        - /srv/lava/instances/$INSTANCE/bin/lava dashboard make-stream --dashboard-url http://localhost/RPC2/ /anonymous/sandbox
-
+        
         
