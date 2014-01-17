@@ -1,8 +1,15 @@
-apt-get -y install schroot
+# Dependency: apt-get -y install schroot
 
-mkdir -p /srv/lava/schroot
-wget http://homecloud/images/schroot/debian_wheezy.tgz -O /srv/lava/schroot/debian_wheezy.tgz
 
+# Dependency: apt-get -y install debootstrap
+# create a debian wheezy schroot
+mkdir -p /srv/lava/schroot/debian_wheezy
+cd /srv/lava/schroot/debian_wheezy
+debootstrap wheezy .
+# create a debian wheezy schroot
+tar cvzf ../debian_wheezy.tgz .
+
+# Create a Schroot Config
 cat > /etc/schroot/schroot.conf <<EOL
 [default]
 description=Simple Debian Wheezy Schroot
