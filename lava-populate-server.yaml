@@ -8,11 +8,6 @@ params:
     ADMINUSER: admin
     ADMINPASS: admin
     TARGETCOUNT: 2
-install:
-    deps:
-        - git-core
-        - grep
-        - curl
 run:
     steps:
         - export SKIP_ROOT_CHECK=yes
