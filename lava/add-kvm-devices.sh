@@ -12,3 +12,5 @@ device_type = $devicetype
 root_part = 1 
 EOL
 done
+#show files
+head -n 1000 /srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/devices/$devicetype-*
