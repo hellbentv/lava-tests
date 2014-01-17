@@ -12,6 +12,7 @@ install:
     deps:
         - qemu-system
         - schroot
+        - debootstrap
 run:
     steps:
         - export SKIP_ROOT_CHECK=yes
