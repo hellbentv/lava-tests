@@ -26,6 +26,6 @@ run:
         - echo POPULATELAVA Add $TARGETCOUNT dummy-schroot devices
         - ./lava/add-dummy-devices.sh $INSTANCE $ADMINUSER $ADMINPASS schroot $TARGETCOUNT
         - echo POPULATELAVA Add $TARGETCOUNT dummy-ssh devices
-        - ./lava/add-dummy-devices.sh $INSTANCE $ADMINUSER $ADMINPASS schroot $TARGETCOUNT
+        - ./lava/add-dummy-devices.sh $INSTANCE $ADMINUSER $ADMINPASS ssh $TARGETCOUNT
         
         
