@@ -3,8 +3,10 @@
 #    $2 - kvm device_type
 #    $3 - number of devices
 LAVA_INSTANCE=$1
-devicetype=$2
-devicecount=$3
+ADMINUSER=$2
+ADMINPASS=$3
+devicetype=$4
+devicecount=$5
 for i in $(seq 1 $devicecount); do
 mkdir -p /srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/devices
 cat > /srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/devices/$devicetype-$i.conf <<EOL
