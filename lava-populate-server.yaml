@@ -17,7 +17,7 @@ run:
     steps:
         - echo POPULATELAVA Add $NUMKVMS $DEVICE_TYPE to instance $INSTANCE
         - ./lava/add-kvm-devices.sh $INSTANCE $DEVICE_TYPE $NUMKVMS
-	- echo POPULATELAVA Add user $ADMINUSER:$ADMINPASS to instance $INSTANCE
+        - echo POPULATELAVA Add user $ADMINUSER:$ADMINPASS to instance $INSTANCE
         - ./lava/create-superuser.sh $INSTANCE $ADMINUSER $ADMINPASS
         
         
