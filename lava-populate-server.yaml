@@ -7,6 +7,7 @@ params:
     DEVICE_TYPE: kvm
     ADMINUSER: admin
     ADMINPASS: admin
+    NUMKVMS: 2
 install:
     deps:
         - git-core
@@ -14,7 +15,9 @@ install:
         - curl
 run:
     steps:
-        - ./lava/add-kvm-devices.sh $INSTANCE $DEVICE_TYPE 1
-	- ./lava/create-superuser.sh $INSTANCE $ADMINUSER $ADMINPASS
+        - echo POPULATELAVA Add $NUMKVMS $DEVICE_TYPE to instance $INSTANCE
+        - ./lava/add-kvm-devices.sh $INSTANCE $DEVICE_TYPE $NUMKVMS
+	- echo POPULATELAVA Add user $ADMINUSER:$ADMINPASS to instance $INSTANCE
+        - ./lava/create-superuser.sh $INSTANCE $ADMINUSER $ADMINPASS
         
         
