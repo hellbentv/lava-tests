@@ -18,6 +18,8 @@ run:
         - echo POPULATELAVA Add $NUMKVMS $DEVICE_TYPE to instance $INSTANCE
         - export SKIP_ROOT_CHECK=yes
         - ./lava/add-kvm-devices.sh $INSTANCE $DEVICE_TYPE $NUMKVMS
+        - echo POPULATELAVA Install qemu-system
+        - apt-get install qemu-system
         - echo POPULATELAVA Add user $ADMINUSER:$ADMINPASS to instance $INSTANCE
         - ./lava/create-superuser.sh $INSTANCE $ADMINUSER $ADMINPASS
         
