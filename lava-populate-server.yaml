@@ -8,6 +8,10 @@ params:
     ADMINUSER: admin
     ADMINPASS: admin
     TARGETCOUNT: 2
+install:
+    deps:
+        - qemu-system
+        - schroot
 run:
     steps:
         - export SKIP_ROOT_CHECK=yes
