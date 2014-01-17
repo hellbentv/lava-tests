@@ -16,12 +16,8 @@ run:
         - /srv/lava/instances/$INSTANCE/bin/lava dashboard make-stream --dashboard-url http://localhost/RPC2/ /anonymous/sandbox
         - echo POPULATELAVA Add $TARGETCOUNT $DEVICE_TYPE to instance $INSTANCE
         - ./lava/add-kvm-devices.sh $INSTANCE $ADMINUSER $ADMINPASS $DEVICE_TYPE $TARGETCOUNT
-        - echo POPULATELAVA NOT ADDING $TARGETCOUNT dummy-host devices
-        - echo /lava/add-dummy-devices.sh $INSTANCE $ADMINUSER $ADMINPASS host $TARGETCOUNT
         - ./lava/prepare_schroot.sh
         - echo POPULATELAVA Add $TARGETCOUNT dummy-schroot devices
         - ./lava/add-dummy-devices.sh $INSTANCE $ADMINUSER $ADMINPASS schroot $TARGETCOUNT
-        - echo POPULATELAVA Add $TARGETCOUNT dummy-ssh devices
-        - ./lava/add-dummy-devices.sh $INSTANCE $ADMINUSER $ADMINPASS ssh $TARGETCOUNT
         
         
