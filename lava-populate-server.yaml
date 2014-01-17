@@ -21,8 +21,8 @@ run:
         - echo POPULATELAVA Add user $ADMINUSER:$ADMINPASS to instance $INSTANCE
         - ./lava/create-superuser.sh $INSTANCE $ADMINUSER $ADMINPASS
         - echo POPULATELAVA Add some dummy devices
-        - ./lava/add-dummy-devices.sh $INSTANCE host 4
-        - ./lava/add-dummy-devices.sh $INSTANCE schroot 4
+        - ./lava/add-dummy-devices.sh $INSTANCE $ADMINUSER $ADMINPASS host 4
+        - ./lava/add-dummy-devices.sh $INSTANCE $ADMINUSER $ADMINPASS schroot 4
         - /srv/lava/instances/$INSTANCE/bin/lava dashboard make-stream --dashboard-url http://localhost/RPC2/ /anonymous/sandbox
 
         
