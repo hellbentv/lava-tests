@@ -11,6 +11,7 @@ cat > /srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/devices/$devicetype
 device_type = $devicetype
 root_part = 1 
 EOL
+./lava/add-dashboard-devices.sh $ADMINUSER $ADMINPASS $devicetype $devicetype-$i
 done
 #show files
 head -n 1000 /srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/devices/$devicetype-*
