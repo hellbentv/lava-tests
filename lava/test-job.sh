@@ -1,8 +1,6 @@
 target=$1
 numtests=$2
 
-device_type=dummy-host
-
 cat > testjob.json <<EOL
 {
     "actions": [
