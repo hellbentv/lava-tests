@@ -13,7 +13,7 @@ client_type = dummy
 dummy_driver = $driver
 EOL
 #show files
-head -n 1000 /srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/device-types/*
+head -n 1000 /srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/device-types/dummy-$driver.conf
 
 # Create N dummy-devicetype-driver-$i devices
 for i in $(seq 1 $devicecount); do
@@ -23,5 +23,5 @@ device_type = dummy-$devicetype
 EOL
 done
 #show files
-head -n 1000 /srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/devices/*
+head -n 1000 /srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/devices/$dummy-$driver-*
 
