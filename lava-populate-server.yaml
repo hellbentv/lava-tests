@@ -7,7 +7,7 @@ params:
     DEVICE_TYPE: kvm
     ADMINUSER: admin
     ADMINPASS: admin
-    NUMKVMS: 2
+    TARGETCOUNT: 2
 install:
     deps:
         - git-core
@@ -19,10 +19,13 @@ run:
         - echo POPULATELAVA Add user $ADMINUSER:$ADMINPASS to instance $INSTANCE
         - ./lava/create-superuser.sh $INSTANCE $ADMINUSER $ADMINPASS
         - /srv/lava/instances/$INSTANCE/bin/lava dashboard make-stream --dashboard-url http://localhost/RPC2/ /anonymous/sandbox
-        - echo POPULATELAVA Add $NUMKVMS $DEVICE_TYPE to instance $INSTANCE
-        - ./lava/add-kvm-devices.sh $INSTANCE $ADMINUSER $ADMINPASS $DEVICE_TYPE $NUMKVMS
-        - echo POPULATELAVA Add some dummy devices
-        - ./lava/add-dummy-devices.sh $INSTANCE $ADMINUSER $ADMINPASS host 4
-        - ./lava/add-dummy-devices.sh $INSTANCE $ADMINUSER $ADMINPASS schroot 4
+        - echo POPULATELAVA Add $TARGETCOUNT $DEVICE_TYPE to instance $INSTANCE
+        - ./lava/add-kvm-devices.sh $INSTANCE $ADMINUSER $ADMINPASS $DEVICE_TYPE $TARGETCOUNT
+        - echo POPULATELAVA Add $TARGETCOUNT dummy-host devices
+        - ./lava/add-dummy-devices.sh $INSTANCE $ADMINUSER $ADMINPASS host $TARGETCOUNT
+        - echo POPULATELAVA Add $TARGETCOUNT dummy-schroot devices
+        - ./lava/add-dummy-devices.sh $INSTANCE $ADMINUSER $ADMINPASS schroot $TARGETCOUNT
+        - echo POPULATELAVA Add $TARGETCOUNT dummy-ssh devices
+        - ./lava/add-dummy-devices.sh $INSTANCE $ADMINUSER $ADMINPASS schroot $TARGETCOUNT
         
         
