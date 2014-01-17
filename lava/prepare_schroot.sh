@@ -1,13 +1,9 @@
-
 apt-get -y install schroot
 
-wget homecloud/images/schroot/debian_wheezy.tgz -o /srv/lava/debian_wheezy.tgz
+mkdir -p /srv/lava/schroot
+wget http://homecloud/images/schroot/debian_wheezy.tgz -O /srv/lava/schroot/debian_wheezy.tgz
 
-mkdir /srv/lava/schroot
-cd /srv/lava/schroot
-tar xvzf /srv/lava/debian_wheezy.tgz
-
-cat >> /etc/schroot/schroot.conf <<EOL
+cat > /etc/schroot/schroot.conf <<EOL
 [default]
 description=Simple Debian Wheezy Schroot
 aliases=test
