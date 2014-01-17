@@ -21,7 +21,7 @@ for i in $(seq 1 $devicecount); do
 
 mkdir -p /srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/devices
 cat > /srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/devices/dummy-$driver-$i.conf <<EOL
-#/srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/devices/$dummy-$driver-$i.conf
+#/srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/devices/dummy-$driver-$i.conf
 device_type = dummy-$devicetype
 EOL
 done
