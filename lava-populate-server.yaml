@@ -1,0 +1,20 @@
+metadata:
+    name: git-lava-cherrypick
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Apply a cherry-pick identified by REPO and REF to lava project PROJECT"
+params:
+    INSTANCE: production
+    DEVICE_TYPE: kvm
+    ADMINUSER: admin
+    ADMINPASS: admin
+install:
+    deps:
+        - git-core
+        - grep
+        - curl
+run:
+    steps:
+        - ./lava/add-kvm-devices.sh $INSTANCE $DEVICE_TYPE 1
+	- ./lava/create-superuser.sh $INSTANCE $ADMINUSER $ADMINPASS
+        
+        
