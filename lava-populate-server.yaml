@@ -1,7 +1,7 @@
 metadata:
-    name: git-lava-cherrypick
+    name: lava-populate-server
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Apply a cherry-pick identified by REPO and REF to lava project PROJECT"
+    description: "begin populating a lava server"
 params:
     INSTANCE: production
     DEVICE_TYPE: kvm
