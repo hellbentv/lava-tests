@@ -21,6 +21,7 @@ run:
         - ln -s ~lava/$PROJECT/ /srv/lava/instances/$INSTANCE/code/current/local/$PROJECT
         - su - lava -c "cd /srv/lava/instances/$INSTANCE/code/current; sudo ./bin/buildout"
         - su - lava -c "cd $PROJECT; git fetch $REPO $REF; git cherry-pick FETCH_HEAD"
+        - /srv/lava/instances/$INSTANCE/bin/lava-server manage migrate
         - stop lava 
         - start lava 
         - curl -o test2 http://127.0.0.1
