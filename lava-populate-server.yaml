@@ -24,5 +24,9 @@ run:
         - ./lava/prepare_schroot.sh
         - echo POPULATELAVA Add $TARGETCOUNT dummy-schroot devices
         - ./lava/add-dummy-devices.sh $INSTANCE $ADMINUSER $ADMINPASS schroot $TARGETCOUNT
+        - echo POPULATELAVA Run a few jobs
+        - ./lava/test-job.sh dummy-schroot-1 3
+        - ./lava/test-job.sh dummy-schroot-2 3
+        
         
         
