@@ -7,7 +7,7 @@ mkdir -p /srv/lava/schroot/debian_wheezy
 cd /srv/lava/schroot/debian_wheezy
 debootstrap wheezy .
 # create a debian wheezy schroot
-tar cvzf ../debian_wheezy.tgz .
+tar czf ../debian_wheezy.tgz .
 
 # Create a Schroot Config
 cat > /etc/schroot/schroot.conf <<EOL
