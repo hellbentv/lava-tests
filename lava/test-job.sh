@@ -1,7 +1,7 @@
 target=$1
 numtests=$2
 
-cat > testjob.json <<EOL
+cat > /root/testjob.json <<EOL
 {
     "actions": [
         {
@@ -36,5 +36,6 @@ cat > testjob.json <<EOL
 EOL
 
 for i in $(seq 1 $numtests); do
-  /srv/lava/instances/testrig/bin/lava dispatch --target $target testjob.json 
+  /srv/lava/instances/testrig/bin/lava dispatch --target $target /root/testjob.json 
+  #/troottestjob.json 
 done
