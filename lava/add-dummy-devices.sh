@@ -7,7 +7,6 @@ ADMINUSER=$2
 ADMINPASS=$3
 driver=$4
 numdevices=$5
-numjobs=3 #Numjobs
 
 #add a new dummy-devicetype.conf file
 #mkdir -p /srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/device-types
@@ -27,10 +26,6 @@ cat > /srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/devices/dummy-$driv
 #/srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/devices/dummy-$driver-$i.conf
 device_type = dummy-$driver
 EOL
+# Create Dashboard devices
 ./lava/add-dashboard-devices.sh $ADMINUSER $ADMINPASS dummy-$driver dummy-$driver-$i
-
-./lava/test-job.sh dummy-$driver-$i $numjobs #devices #e10ff
 done
-#show files
-#!#head -n 1000 /srv/lava/instances/$LAVA_INSTANCE/etc/lava-dispatcher/devices/dummy-$driver-*
-#
