@@ -18,5 +18,6 @@ run:
         - cd docker-drupal
         - sudo docker build -t hellbentv/drupal .
         - sudo docker run -d -t -p 80:80 hellbentv/drupal
+        - docker ps
         - curl -o test http://localhost
         - lava-test-case lava-server-verification --shell grep -i drupal test
