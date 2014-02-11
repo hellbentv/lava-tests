@@ -1,5 +1,5 @@
 metadata:
-    name: drupal on docker
+    name: drupalondocker
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Install Docker, deploy drupal"
 params:
