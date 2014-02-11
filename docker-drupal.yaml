@@ -18,8 +18,8 @@ run:
         - cd docker-drupal
         - docker build -t hellbentv/drupal .
         - docker run -d -t -p 80:80 hellbentv/drupal
-        - echo curl -o localhost.out localhost
-        - echo lava-test-case lava-server-verification --shell grep Drupal localhost.out
+        - curl -o localhost.out localhost
+        - lava-test-case lava-server-verification --shell grep Drupal localhost.out
         - CONTAINER_ID=$(docker ps -q)
         - docker stop $CONTAINER_ID
         - docker start $CONTAINER_ID
