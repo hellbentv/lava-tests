@@ -16,13 +16,14 @@ run:
         - apt-get -y install lxc-docker-$DOCKER_VERSION
         - git clone https://github.com/hellbentv/docker-drupal.git
         - cd docker-drupal
-        - docker build -t hellbentv/drupal .
-        - docker run -d -t -p 80:80 hellbentv/drupal
-        - curl -o localhost.out localhost
+        - echo "DOCKER BUILD"; docker build -t hellbentv/drupal .
+        - echo "DOCKER RUN"; docker run -d -t -p 80:80 hellbentv/drupal
+        - echo "SLEEP"; sleep 10
+        - echo CURL; curl -o localhost.out localhost
         - lava-test-case lava-server-verification --shell grep Drupal localhost.out
         - CONTAINER_ID=$(docker ps -q)
-        - docker stop $CONTAINER_ID
-        - docker start $CONTAINER_ID
-        - docker ps
+        - echo "DOCKER STOP"; docker stop $CONTAINER_ID
+        - echo "DOCKER START"; docker start $CONTAINER_ID
+        - echo "SLEEP"; sleep 10
         - curl -o localhost.out localhost
         - lava-test-case lava-server-verification-afterStopStart --shell grep Drupal localhost.out
