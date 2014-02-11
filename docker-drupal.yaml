@@ -1,0 +1,19 @@
+metadata:
+    name: drupal on docker
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Install Docker, deploy drupal"
+params:
+    NONE: yet
+install:
+    deps:
+        - git-core
+        - curl
+run:
+    steps:
+        - curl get.docker.io | sudo sh -x
+        - git clone https://github.com/hellbentv/docker-drupal.git
+        - cd docker-drupal
+        - sudo docker build -t hellbentv/drupal .
+        - sudo docker run -d -t -p 80:80 hellbentv/drupal
+        - curl -o test http://localhost
+        - lava-test-case lava-server-verification --shell grep -i drupal test
