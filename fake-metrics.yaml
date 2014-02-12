@@ -1,0 +1,30 @@
+metadata:
+    name: fake-metrics
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "To fake metrics"
+    type: measurement
+    focus: boot
+parameters:
+    a: 0
+    ameasure: 0
+    aunit: 0
+    b: 0
+    bmeasure: 0
+    bunit: 0
+    c: 0
+    cmeasure: 0
+    cunit: 0
+    d: 0
+    dmeasure: 0
+    dunit: 0
+    e: 0
+    emeasure: 0
+    eunit: 0
+run:
+    steps:
+        - 
+        - if [ "$a" != "0" ]; then lava-test-case $a --result pass --measurement $ameasure --units $aunit ; fi
+        - if [ "$b" != "0" ]; then lava-test-case $b --result pass --measurement $bmeasure --units $bunit ; fi
+        - if [ "$c" != "0" ]; then lava-test-case $c --result pass --measurement $cmeasure --units $cunit ; fi
+        - if [ "$d" != "0" ]; then lava-test-case $d --result pass --measurement $dmeasure --units $dunit ; fi
+        - if [ "$e" != "0" ]; then lava-test-case $e --result pass --measurement $emeasure --units $eunit ; fi
