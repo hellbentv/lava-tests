@@ -18,12 +18,13 @@ run:
         - cd docker-drupal
         - echo "DOCKER BUILD"; docker build -t hellbentv/drupal .
         - echo "DOCKER RUN"; docker run -d -t -p 80:80 hellbentv/drupal
-        - echo "SLEEP"; sleep 10
+        - CONTAINER_ID=$(docker ps -q)
+        - echo "CONTAINER: $CONTAINER_ID"
+        - echo "SLEEP"; sleep 80
         - echo CURL; curl -o localhost.out localhost
         - lava-test-case lava-server-verification --shell grep Drupal localhost.out
-        - CONTAINER_ID=$(docker ps -q)
         - echo "DOCKER STOP"; docker stop $CONTAINER_ID
         - echo "DOCKER START"; docker start $CONTAINER_ID
-        - echo "SLEEP"; sleep 10
+        - echo "SLEEP"; sleep 80
         - curl -o localhost.out localhost
         - lava-test-case lava-server-verification-afterStopStart --shell grep Drupal localhost.out
