@@ -4,7 +4,7 @@ metadata:
     description: "To fake metrics"
     type: measurement
     focus: boot
-parameters:
+params:
     a: 0
     ameasure: 0
     aunit: 0
