@@ -6,5 +6,9 @@ metadata:
     focus: boot
 run:
     steps:
+        - echo "Return uptime, though this does take in account the time to run lava-test-shell"
         - upsecs=$(cat /proc/uptime | cut -d ' ' -f1)
         - lava-test-case boottime --result pass --measurement $upsecs --units seconds
+        - echo "Return the time stamp the first init call was logged in dmesg"
+        - firstinit=$(dmesg | grep init\: | sed "s/^\[[ ]*\?\([0-9.]*\)\] \(.*\)/\\1 \\2/" | cut -d " " -f 1 | head -n 1)
+        - lava-test-case firstinittime --result pass --measurement $firstinit --units seconds
