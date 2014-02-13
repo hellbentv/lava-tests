@@ -22,7 +22,7 @@ params:
     eunit: 0
 run:
     steps:
-        - ECHO "Creating fake results"
+        - echo "Creating fake results"
         - if [ "$a" != "0" ]; then lava-test-case $a --result pass --measurement $ameasure --units $aunit ; fi
         - if [ "$b" != "0" ]; then lava-test-case $b --result pass --measurement $bmeasure --units $bunit ; fi
         - if [ "$c" != "0" ]; then lava-test-case $c --result pass --measurement $cmeasure --units $cunit ; fi
