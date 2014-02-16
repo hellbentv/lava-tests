@@ -1,0 +1,13 @@
+metadata:
+    name: linaro-jenkins-tools-ansible
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Install linaro jenkins instance using ansible"
+params:
+    VAR: none
+install:
+    deps:
+        - git-core
+        - curl
+        - ansible
+run:
+    steps:
