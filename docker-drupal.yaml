@@ -3,7 +3,7 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Install Docker, deploy drupal"
 params:
-    DOCKER_VERSION: 0.6.4
+    DOCKER_VERSION: tip
 install:
     deps:
         - git-core
@@ -13,7 +13,8 @@ run:
         - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
         - sudo sh -c "echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
         - apt-get update
-        - apt-get -y install lxc-docker-$DOCKER_VERSION
+        - if [ "$DOCKER_VERSION" != "tip" ]; then apt-get -y install lxc-docker-$DOCKER_VERSION ; fi
+        - if [ "$DOCKER_VERSION" == "tip" ]; then apt-get -y install lxc-docker ; fi
         - git clone https://github.com/hellbentv/docker-drupal.git
         - cd docker-drupal
         - echo "DOCKER BUILD"; docker build -t hellbentv/drupal .
