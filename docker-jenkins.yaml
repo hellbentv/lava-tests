@@ -1,0 +1,26 @@
+metadata:
+    name: jenkinsondocker
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Install Docker, deploy jenkins originally based on https://github.com/aespinosa/docker-jenkins"
+params:
+    DOCKER_VERSION: tip
+install:
+    deps:
+        - git-core
+        - curl
+run:
+    steps:
+        - echo "This runs as root"
+        - apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
+        - sh -c "echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
+        - apt-get update
+        - if [ "$DOCKER_VERSION" != "tip" ]; then apt-get -y install lxc-docker-$DOCKER_VERSION ; fi
+        - if [ "$DOCKER_VERSION" == "tip" ]; then apt-get -y install lxc-docker ; fi
+        - git clone https://github.com/hellbentv/docker-jenkins.git
+        - cd docker-jenkins
+        - echo "DOCKER BUILD"; docker build -t hellbentv/jenkins .
+        - echo "DOCKER RUN"; docker run -d -t -p 8080/8080 hellbentv/jenkins 
+        - echo "DOCKER PS"; docker ps
+        - echo "SLEEP 80"; sleep 80
+        - curl http://localhost:8080
+        
