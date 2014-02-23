@@ -1,0 +1,10 @@
+params
+steps
+    - sudo apt-get update
+    - sudo apt-get upgrade
+    - sudo apt-get -y install git cmake build-essential zlib1g-dev libssl-dev autoconf libtool ia32-libs xutils-dev
+    - mkdir lmp
+    - cd lmp
+    - git clone https://github.com/OCP-OpenComputeProject/lava-lmp-lmpd.git
+    - git clone https://github.com/OCP-OpenComputeProject/lava-lmp-firmware.git
+    
