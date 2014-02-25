@@ -1,0 +1,14 @@
+metadata:
+    name: qemu-tip
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "yaml for pulling, building and launching a kvm"
+run:
+    steps:
+        - git clone git://git.qemu.org/qemu.git
+        - cd qemu
+        - mkdir -p bin/debug/native
+        - cd bin/debug/native
+        - ../../../configure --enable-debug
+        - make
+        - cd ../../..
+        
