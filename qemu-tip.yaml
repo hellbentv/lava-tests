@@ -2,6 +2,10 @@ metadata:
     name: qemu-tip
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "yaml for pulling, building and launching a kvm"
+install:
+    deps:
+        - git-core
+        - glib2.0-dev
 run:
     steps:
         - git clone git://git.qemu.org/qemu.git
