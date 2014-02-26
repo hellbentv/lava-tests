@@ -9,7 +9,7 @@ install:
         - make
 run:
     steps:
-        - git clone git://git.qemu.org/qemu.git
+        - git clone --depth=1 git://git.qemu.org/qemu.git
         - cd qemu
         - mkdir -p bin/debug/native
         - cd bin/debug/native
