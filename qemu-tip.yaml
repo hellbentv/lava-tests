@@ -13,7 +13,7 @@ run:
         - cd qemu
         - mkdir -p bin/debug/native
         - cd bin/debug/native
-        - ../../../configure --enable-debug --without-pixman --disable-tools --disable-system
+        - ../../../configure --enable-debug --without-pixman --disable-tools --disable-system --target-list=aarch64-linux-user
         - make
         - cd ../../..
         - /root/qemu/bin/debug/native/aarch64-linux-user/qemu-aarch64
