@@ -11,11 +11,9 @@ run:
     steps:
         - git clone git://git.qemu.org/qemu.git
         - cd qemu
-        - git submodule update --init pixman
-        - git submodule update --init dtc
         - mkdir -p bin/debug/native
         - cd bin/debug/native
-        - ../../../configure --enable-debug --disable-pixman --disable-tools --disable-system
+        - ../../../configure --enable-debug --without-pixman --disable-tools --disable-system
         - make
         - cd ../../..
         - /root/qemu/bin/debug/native/aarch64-linux-user/qemu-aarch64
