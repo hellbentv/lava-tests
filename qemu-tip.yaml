@@ -9,6 +9,9 @@ install:
         - make
 run:
     steps:
+        - echo currentdirectory
+        - pwd
+        - cp qemu/chroot.sh /root
         - cd /root
         - git clone --depth=1 git://git.qemu.org/qemu.git
         - cd qemu
@@ -18,3 +21,5 @@ run:
         - make
         - cd ../../..
         - /root/qemu/bin/debug/native/aarch64-linux-user/qemu-aarch64
+        - cp /root/qemu/bin/debug/native/aarch64-linux-user/qemu-aarch64 /usr/bin/qemu-aarch64
+        - /root/chroot
