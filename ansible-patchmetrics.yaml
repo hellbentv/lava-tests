@@ -1,4 +1,4 @@
-metadata:
+metadata:
     name: ansiblepatchmetrics
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Install linaro patchmetrics using Ansible"
