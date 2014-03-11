@@ -23,6 +23,6 @@ run:
         - cd linaro-patchmetrics/ansible
         - echo "Only run local install"
         - cp /root/secrets.yml .
-        - cp /root/host_vars host_vars/localhost
+        - cp /root/localhost host_vars/localhost
         - ansible-playbook -c local -s -i /root/hosts site.yml -l localhost
         
