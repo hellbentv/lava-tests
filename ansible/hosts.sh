@@ -1,4 +1,4 @@
 #!/bin/bash
-echo "Create /tmp/hosts"
-echo "[localhost]" > /tmp/hosts
-echo 127.0.0.1 >> /tmp/hosts
+echo "Create /root/hosts"
+echo "[localhost]" > /root/hosts
+echo 127.0.0.1 >> /root/hosts
