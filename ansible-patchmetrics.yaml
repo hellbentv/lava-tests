@@ -1,0 +1,36 @@
+metadata:
+    name: ansiblepatchmetrics
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Install linaro patchmetrics using Ansible"
+params:
+    blankvar: empty
+run:
+    steps:
+        - echo "Install Dependencies"
+        - apt-get install -y git-core
+        - apt-get install -y python-pip python-dev
+        - echo "Install Ansible"
+        - pip install ansible
+        - echo "Create /tmp/hosts"
+        - echo "[example]" > /tmp/hosts
+        - echo 127.0.0.1 >> /tmp/hosts
+        - echo "Create server.key"
+        - openssl genrsa -out /tmp/server.key 2048
+        - mkdir -p /srv
+        - cd /srv
+        - git clone https://git.linaro.org/infrastructure/linaro-patchmetrics.git
+        - cd linaro-patchmetrics/ansible
+        - echo "Create secrets.yml file"
+        - 'echo "crowd_app_name: crowd" > secrets.yml'
+        - 'echo "crowd_app_password: crowdpw" >> secrets.yml'
+        - 'echo "db_password: corwdpw" >> secrets.yml'
+        - 'echo "openssl_certs: " >> secrets.yml'
+        - 'echo "    - /tmp" >> secrets.yml'
+        - echo "Create host_vars file"
+        - 'echo "nickname: patches" > host_vars/localhost'
+        - 'echo "hostname: localhost" >> host_vars/localhost'
+        - 'echo "role: production" >> host_vars/localhost'
+        - 'echo "patchwork_repos_path: /opt/patchwork" >> host_vars/localhost'
+        - echo "Only run local install"
+        - ansible-playbook -c local -s -i hosts site.yml -l localhost
+        
