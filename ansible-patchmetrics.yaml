@@ -25,5 +25,5 @@ run:
         - echo "Only run local install"
         - cp /root/secrets.yml .
         - cp /root/localhost host_vars/127.0.0.1
-        - ansible-playbook -c local -s -i /root/hosts site.yml -l 127.0.0.1
+        - ansible-playbook -c local -s -i /root/hosts site.yml -l staging
         
