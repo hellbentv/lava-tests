@@ -1,7 +1,10 @@
 #!/bin/bash
 
 echo "Create host_vars file"
-echo 'nickname: lava-server' > /root/localhost
-echo 'hostname: lava-server' >> /root/localhost
-echo 'role: staging' >> /root/localhost
-echo 'patchwork_repos_path: /opt/patchwork' >> /root/localhost
+
+cat > /root/host_vars.tmp <<EOL
+nickname: $1
+hostname: $1
+role: staging
+patchwork_repos_path: /opt/patchwork
+EOL
