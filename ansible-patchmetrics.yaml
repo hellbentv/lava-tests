@@ -32,7 +32,8 @@ run:
         - cd linaro-patchmetrics/ansible
         
         - echo 'run ansible on local server'
+        - echo lava-server >> hosts
         - cp /root/secrets.yml .
         - cp /root/localhost host_vars/localhost
-        - ansible-playbook -c local -s -i /root/hosts site.yml -l lava-server
+        - ansible-playbook -c local -s -i hosts site.yml -l lava-server
         
