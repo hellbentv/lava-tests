@@ -1,18 +1,22 @@
 #!/bin/bash
-cd /root
+domain=lava-server
 
-echo "Create server.key & new lava-server.csr"
-openssl req -new -x509 -newkey rsa:2048 -nodes -out lava-server.csr -keyout lava-server.key -days 365 \
-    -subj "/C=US/ST=Arizona/L=Scottsdale/O=lavaserver.com/CN=lava-server"
+# Creates self figned certificate to use with a website.
+function create_certs() {
+    head /dev/urandom > /dev/null
+    openssl genrsa -rand /dev/urandom -out ${1}.key 2048
+    openssl req -new -x509 -days 3652 -key ${1}.key -out ${1}.pem \
+        -subj "/C=US/ST=Colorado/L=Boulder/O=${1}.com/CN=${1}"
+}
+echo "Creating cert for domain '$domain'"
+create_certs $domain
 
-echo "TODO: Do we need a task?"
-cat lava-server.key lava-server.csr > lava-server.pem
-
-echo 'Create secrets.yml file'
-echo 'crowd_app_name: crowdname' > /root/secrets.yml
-echo 'crowd_app_password: crowdpw' >> /root/secrets.yml
-echo 'db_password: databaspw' >> /root/secrets.yml
-echo 'openssl_certs: ' >> /root/secrets.yml
-echo '    - /root/lava-server.pem' >> /root/secrets.yml
-echo '    - /root/lava-server.key' >> /root/secrets.yml
-echo '    - /root/lava-server.csr' >> /root/secrets.yml
+echo "Build secrets file, certs in $PWD"
+cat > /root/secrets.yml <<EOL
+crowd_app_name: crowdname
+crowd_app_password: crowdpw
+db_password: databaspw
+openssl_certs: 
+    - $PWD/${domain}.pem
+    - $PWD/${domain}.key
+EOL
