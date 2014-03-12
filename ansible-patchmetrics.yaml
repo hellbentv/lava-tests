@@ -10,7 +10,7 @@ run:
         - echo 'Acquire::http::Proxy "http://192.168.1.141:3142";'> /etc/apt/apt.conf.d/80cache
        
         - echo '### build generichostname'
-        - hn='lava_'`date | md5sum |cut -d' ' -f1`
+        - hn='lava'`date | md5sum |cut -d' ' -f1`
         
         - echo '### change hostname'
         - echo '$hn' > /etc/hostname
