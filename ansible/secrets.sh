@@ -1,5 +1,5 @@
 #!/bin/bash
-domain=lava-server
+domain=$1
 
 # Creates self figned certificate to use with a website.
 function create_certs() {
