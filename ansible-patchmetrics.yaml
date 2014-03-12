@@ -6,6 +6,7 @@ params:
     blankvar: empty
 run:
     steps:
+        - echo 'Acquire::http::Proxy "http://192.168.1.141:3142";'> /etc/apt/apt.conf.d/80cache
         - echo 'change hostname'
         - echo 'lava-server' > /etc/hostname
         - hostname lava-server
