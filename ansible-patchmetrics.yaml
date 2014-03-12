@@ -39,6 +39,6 @@ run:
         - ansible-playbook -c local -s -i hosts site.yml -l lava-server
         - ansible-playbook -c local -s -i hosts site.yml -l lava-server --tag pip
         - service apache2 restart
-        - curl -o test http://lava-server
+        - curl -o https://lava-server/ --insecure
         - lava-test-case patchmetrics-server-verification --shell grep "by Linaro engineers" test
         
