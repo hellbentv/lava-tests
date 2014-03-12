@@ -8,10 +8,14 @@ run:
     steps:
         - echo '### Local lava server performance improvement'
         - echo 'Acquire::http::Proxy "http://192.168.1.141:3142";'> /etc/apt/apt.conf.d/80cache
+       
+        - echo '### build generichostname'
+        - hn='lava_'`date | md5sum |cut -d' ' -f1`
         
         - echo '### change hostname'
-        - echo 'lava-server' > /etc/hostname
-        - hostname lava-server
+        - echo '$hn' > /etc/hostname
+        - hostname $hn
+        - echo "127.0.0.1 $hn" >> /etc/hosts
         
         - echo '### Install Dependencies'
         - apt-get update
@@ -21,26 +25,24 @@ run:
         - echo '### Install Ansible'
         - pip install ansible
         
-        - echo '### Create /root/hosts'
-        - . ./ansible/hosts.sh
-        
         - echo '### Create /root/host_vars'
-        - . ./ansible/host_vars.sh
+        - . ./ansible/host_vars.sh $hn
         
         - echo '### Create /root/secrets.yml file'
-        - . ./ansible/secrets.sh
+        - . ./ansible/secrets.sh $hn
+        
         - mkdir -p /srv
         - cd /srv
         - git clone https://git.linaro.org/infrastructure/linaro-patchmetrics.git
         - cd linaro-patchmetrics/ansible
         
-        - echo '### fixup the server name'
-        - echo lava-server >> hosts
-        - echo "127.0.0.1 lava-server" >> /etc/hosts
+        - echo '### fixup the ansible variable files'
+        - echo $hn >> hosts
         - cp /root/secrets.yml .
-        - cp /root/localhost host_vars/lava-server
+        - cp /root/host_vars.tmp host_vars/$hn
+        
         - echo '### run ansible-playbook'
-        - ansible-playbook -c local -s -i hosts site.yml -l lava-server
+        - ansible-playbook -c local -s -i hosts site.yml -l $hn
         
         - echo '### TODO manually install the crowd backend'
         - pip install -e git://git.linaro.org/lava/django-crowd-rest-backend.git@c741f1738786c58253b400ffc27a16967702f84c#egg=django_crowd_rest_backend-dev
@@ -48,7 +50,7 @@ run:
         - service apache2 restart
 
         - echo '### Verify the installation'
-        - curl -o test https://lava-server/ --insecure
-        - lava-test-case patchmetrics-server-verification --shell grep "by Linaro engineers" test
+        - curl -o test https://$hn/ --insecure
+        - lava-test-case patchmetrics-server-verification --shell grep Statistics test
         
         
