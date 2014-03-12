@@ -37,5 +37,6 @@ run:
         - cp /root/secrets.yml .
         - cp /root/localhost host_vars/lava-server
         - ansible-playbook -c local -s -i hosts site.yml -l lava-server
+        - ansible-playbook -c local -s -i hosts site.yml -l lava-server -tag pip
         - service apache2 restart
         
