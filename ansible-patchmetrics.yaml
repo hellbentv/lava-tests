@@ -37,9 +37,12 @@ run:
         - cp /root/secrets.yml .
         - cp /root/localhost host_vars/lava-server
         - ansible-playbook -c local -s -i hosts site.yml -l lava-server
-        - pip freeze
-        - ansible-playbook -v -c local -s -i hosts site.yml -l lava-server --tag pip
+        
+        - echo manually install the crowd backend
+        - pip install -e git://git.linaro.org/lava/django-crowd-rest-backend.git@c741f1738786c58253b400ffc27a16967702f84c#egg=django_crowd_rest_backend-dev
+        
         - service apache2 restart
-        - curl -o https://lava-server/ --insecure
+        - curl -o test https://lava-server/ --insecure
         - lava-test-case patchmetrics-server-verification --shell grep "by Linaro engineers" test
+        
         
