@@ -6,42 +6,48 @@ params:
     blankvar: empty
 run:
     steps:
+        - echo '### Local lava server performance improvement'
         - echo 'Acquire::http::Proxy "http://192.168.1.141:3142";'> /etc/apt/apt.conf.d/80cache
-        - echo 'change hostname'
+        
+        - echo '### change hostname'
         - echo 'lava-server' > /etc/hostname
         - hostname lava-server
         
-        - echo 'Install Dependencies'
+        - echo '### Install Dependencies'
         - apt-get update
         - apt-get install -y git-core
         - apt-get install -y python-pip python-dev
         
-        - echo 'Install Ansible'
+        - echo '### Install Ansible'
         - pip install ansible
         
-        - echo 'Create /root/hosts'
+        - echo '### Create /root/hosts'
         - . ./ansible/hosts.sh
         
-        - echo 'Create /root/host_vars'
+        - echo '### Create /root/host_vars'
         - . ./ansible/host_vars.sh
         
-        - echo 'Create /root/secrets.yml file'
+        - echo '### Create /root/secrets.yml file'
         - . ./ansible/secrets.sh
         - mkdir -p /srv
         - cd /srv
         - git clone https://git.linaro.org/infrastructure/linaro-patchmetrics.git
         - cd linaro-patchmetrics/ansible
         
-        - echo 'run ansible on local server'
+        - echo '### fixup the server name'
         - echo lava-server >> hosts
+        - echo "127.0.0.1 lava-server" >> /etc/hosts
         - cp /root/secrets.yml .
         - cp /root/localhost host_vars/lava-server
+        - echo '### run ansible-playbook'
         - ansible-playbook -c local -s -i hosts site.yml -l lava-server
         
-        - echo manually install the crowd backend
+        - echo '### TODO manually install the crowd backend'
         - pip install -e git://git.linaro.org/lava/django-crowd-rest-backend.git@c741f1738786c58253b400ffc27a16967702f84c#egg=django_crowd_rest_backend-dev
         
         - service apache2 restart
+
+        - echo '### Verify the installation'
         - curl -o test https://lava-server/ --insecure
         - lava-test-case patchmetrics-server-verification --shell grep "by Linaro engineers" test
         
