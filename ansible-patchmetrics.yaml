@@ -38,7 +38,7 @@ run:
         - cp /root/localhost host_vars/lava-server
         - ansible-playbook -c local -s -i hosts site.yml -l lava-server
         - pip freeze
-        - ansible-playbook -c local -s -i hosts site.yml -l lava-server --tag pip
+        - ansible-playbook -v -c local -s -i hosts site.yml -l lava-server --tag pip
         - service apache2 restart
         - curl -o https://lava-server/ --insecure
         - lava-test-case patchmetrics-server-verification --shell grep "by Linaro engineers" test
