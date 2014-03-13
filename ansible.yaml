@@ -26,9 +26,3 @@ run:
         
         - echo '### Step 4 - Prepare execute ansible playbook'
         - . ./ansible/${ANSIBLE_PROJECT} ${hn}
-
-        - echo '### Step 5 - Use the LAVA api to verify the installation and report pass'
-        - curl -o test https://${hn}/ --insecure
-        - lava-test-case https-server-verification --shell grep ${HTTPS_TEXT} test
-        - curl -o test http://${hn}/ --insecure
-        - lava-test-case http-server-verification --shell grep ${HTTP_TEXT} test
