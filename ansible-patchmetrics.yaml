@@ -45,7 +45,7 @@ run:
         - echo '              For now we run it again outside of ansible and it works'
         - pip install -e git://git.linaro.org/lava/django-crowd-rest-backend.git@c741f1738786c58253b400ffc27a16967702f84c#egg=django_crowd_rest_backend-dev
     
-        - echo '### Verify the installation'
+        - echo '### Step 9 - Use the LAVA api to verify the installation and report pass'
         - service apache2 restart
         - curl -o test https://${hn}/ --insecure
         - lava-test-case patchmetrics-server-verification --shell grep Statistics test
