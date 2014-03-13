@@ -41,7 +41,7 @@ run:
         - echo '### Step 8 - Run ansible-playbook locally'
         - ansible-playbook -c local -s -i hosts site.yml -l ${hn}
         
-        - echo '### Step 8a - BUG TODO - For some reason the ansible task isn't persistent'
+        - echo '### Step 8a - BUG TODO - For some reason the ansible task is not persistent'
         - echo '              For now we run it again outside of ansible and it works'
         - pip install -e git://git.linaro.org/lava/django-crowd-rest-backend.git@c741f1738786c58253b400ffc27a16967702f84c#egg=django_crowd_rest_backend-dev
     
