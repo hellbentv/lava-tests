@@ -59,5 +59,6 @@ openssl_certs:
     - $PWD/${domain}.key
 EOL
 
-
+#execute playbook
+ansible-playbook -c local -s -i hosts site.yml -l ${domain}
     
