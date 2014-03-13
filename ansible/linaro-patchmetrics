@@ -70,7 +70,7 @@ service apache2 restart
 
 #Use the LAVA api to verify the installation and report pass'
 curl -o test https://${hn}/ --insecure
-lava-test-case https-server-verification --shell grep ${HTTPS_TEXT} test
+lava-test-case https-server-verification --shell grep Statistics test
 curl -o test http://${hn}/ --insecure
-lava-test-case http-server-verification --shell grep ${HTTP_TEXT} test
+lava-test-case http-server-verification --shell grep Moved test
 
