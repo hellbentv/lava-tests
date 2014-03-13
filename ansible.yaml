@@ -4,9 +4,9 @@ metadata:
     description: "Install linaro playbook using Ansible"
 params:
     ANSIBLE_VERSION: tip
-    ANSIBLE_PROJECT: linaro-patchmetrics
-    HTTPS_TEXT: Statistics
-    HTTP_TEXT: Moved
+    ANSIBLE_PROJECT: projectname
+    HTTPS_TEXT: keyword
+    HTTP_TEXT: keyword
 run:
     steps:
         - echo '### Step 1 - Generate a unique hostname'
