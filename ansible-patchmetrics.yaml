@@ -3,7 +3,7 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Install linaro patchmetrics using Ansible"
 params:
-    blankvar: empty
+    ANSIBLE_VERSION: tip
 run:
     steps:
         - echo '### Step 1 - We need a unique hostname, incase 2 installs collide'
@@ -21,7 +21,7 @@ run:
         - echo '### Step 3 - Install Ansible'
         - pip install ansible
         - version=`ansible --version`
-        - lava-test-case ansible-version --result pass --measurement $version --units version
+        - echo 'Ansible Version = '$version
         
         - echo '### Step 4 - This playbook uses a host_vars file for some variables'
         - echo '             The file is in yaml, so we create it in a shell script'
