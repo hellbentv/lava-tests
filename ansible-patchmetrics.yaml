@@ -7,7 +7,7 @@ params:
 run:
     steps:
         - echo '### Local lava server performance improvement'
-        - echo 'Acquire::http::Proxy "http://192.168.1.141:3142";'> /etc/apt/apt.conf.d/80cache
+        - echo '#Acquire::http::Proxy "http://192.168.1.141:3142";'> /etc/apt/apt.conf.d/80cache
        
         - echo '### build generichostname'
         - hn='lava'`date | md5sum |cut -d' ' -f1`
