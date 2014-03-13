@@ -1,12 +1,15 @@
 metadata:
-    name: ansiblepatchmetrics
+    name: ansibleplaybook
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Install linaro patchmetrics using Ansible"
+    description: "Install linaro playbook using Ansible"
 params:
     ANSIBLE_VERSION: tip
+    ANSIBLE_PROJECT: linaro-patchmetrics
+    HTTPS_TEXT: Statistics
+    HTTP_TEXT: Moved
 run:
     steps:
-        - echo '### Step 1 - We need a unique hostname, incase 2 installs collide'
+        - echo '### Step 1 - Generate a unique hostname'
         - hn='lava'`date | md5sum |cut -d' ' -f1`
         - echo 'Hostname = '${hn}
         - echo ${hn} > /etc/hostname
@@ -18,32 +21,16 @@ run:
         - apt-get install -y git-core
         - apt-get install -y python-pip python-dev
         
-        - echo -n '### Step 3 - Install Ansible'
+        - echo -n '### Step 3 - Install ansible'
         - if [ "$ANSIBLE_VERSION" != "tip" ]; then echo "${ANSIBLE_VERSION}"; pip install ansible==${ANSIBLE_VERSION} ; fi
         - if [ "$ANSIBLE_VERSION" == "tip" ]; then echo "${ANSIBLE_VERSION}"; pip install ansible; fi
         - echo '### - Ansible Version = '`ansible --version`
         
-        - echo '### Step 4 - This playbook uses a host_vars file for some variables'
-        - echo '             The file is in yaml, so we create it in a shell script'
-        - . ./ansible/host_vars.sh ${hn}
-        
-        - echo '### Step 5 - Configure our secrets for the demo, we will use a self-signed cert'
-        - . ./ansible/secrets.sh ${hn}
-        
-        - echo '### Step 6 - Download Playbook into a persistent location'
-        - mkdir -p /opt/ansible; cd /opt/ansible
-        - git clone https://git.linaro.org/infrastructure/linaro-patchmetrics.git
-        
-        - echo '### Step 7 - copy over the variable files we created in Step 4 and Step 5'
-        - cd linaro-patchmetrics/ansible
-        - echo ${hn} >> hosts
-        - cp /root/secrets.yml .
-        - cp /root/host_vars.tmp host_vars/${hn}
-        
-        - echo '### Step 8 - Run ansible-playbook locally'
-        - ansible-playbook -c local -s -i hosts site.yml -l ${hn}
- 
-        - echo '### Step 9 - Use the LAVA api to verify the installation and report pass'
-        - service apache2 restart
+        - echo '### Step 4 - Prepare execute ansible playbook'
+        - . ./ansible/${ANSIBLE_PROJECT} ${hn}
+
+        - echo '### Step 5 - Use the LAVA api to verify the installation and report pass'
         - curl -o test https://${hn}/ --insecure
-        - lava-test-case patchmetrics-server-verification --shell grep Statistics test
+        - lava-test-case https-server-verification --shell grep ${HTTPS_TEXT} test
+        - curl -o test http://${hn}/ --insecure
+        - lava-test-case http-server-verification --shell grep ${HTTP_TEXT} test
