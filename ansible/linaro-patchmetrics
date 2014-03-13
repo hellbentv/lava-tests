@@ -35,10 +35,10 @@ function create_certs() {
 # Download playbook into a persistent location
 mkdir -p /opt; cd /opt
 git clone ${playbook} ${workdir}
-cd ${workdir}
+cd ${workdir}/ansible
 
 #Create host_vars file for the domain
-cat > host_vars/ansible/${domain} <<EOL
+cat > host_vars/${domain} <<EOL
 nickname: ${domain}
 hostname: ${domain}
 role: staging
