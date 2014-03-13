@@ -18,10 +18,10 @@ run:
         - apt-get install -y git-core
         - apt-get install -y python-pip python-dev
         
-        - echo '### Step 3 - Install Ansible'
-        - pip install ansible
-        - version=`ansible --version`
-        - echo 'Ansible Version = '$version
+        - echo -n '### Step 3 - Install Ansible'
+        - if [ "$ANSIBLE_VERSION" != "tip" ]; then echo "${ANSIBLE_VERSION}; pip install ansible==${ANSIBLE_VERSION} ; fi
+        - if [ "$ANSIBLE_VERSION" == "tip" ]; then echo "${ANSIBLE_VERSION}; pip install ansible; fi
+        - echo '### - Ansible Version = '`ansible --version`
         
         - echo '### Step 4 - This playbook uses a host_vars file for some variables'
         - echo '             The file is in yaml, so we create it in a shell script'
