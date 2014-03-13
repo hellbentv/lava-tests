@@ -20,6 +20,8 @@ run:
         
         - echo '### Step 3 - Install Ansible'
         - pip install ansible
+        - version=`ansible --version`
+        - lava-test-case ansible-version --result pass --measurement $version --units version
         
         - echo '### Step 4 - This playbook uses a host_vars file for some variables'
         - echo '             The file is in yaml, so we create it in a shell script'
