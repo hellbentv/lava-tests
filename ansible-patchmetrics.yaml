@@ -25,14 +25,14 @@ run:
         - echo '             The file is in yaml, so we create it in a shell script'
         - . ./ansible/host_vars.sh ${hn}
         
-        - echo '### Step 5 - Configure our secrets (for the demo, we'll use a self-signed cert)'
+        - echo '### Step 5 - Configure our secrets for the demo, we will use a self-signed cert'
         - . ./ansible/secrets.sh ${hn}
         
-        - echo '### Step 6 - Download Playbook (into a persistent location)
+        - echo '### Step 6 - Download Playbook into a persistent location'
         - mkdir -p /opt/ansible; cd /opt/ansible
         - git clone https://git.linaro.org/infrastructure/linaro-patchmetrics.git
         
-        - echo '### Step 7 - copy over the variable files we created in Step 4 & Step 5'
+        - echo '### Step 7 - copy over the variable files we created in Step 4 and Step 5'
         - cd linaro-patchmetrics/ansible
         - echo ${hn} >> hosts
         - cp /root/secrets.yml .
