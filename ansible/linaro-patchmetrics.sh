@@ -4,7 +4,6 @@
 # Version v0.1.0
 # More info: 
 #
-# Licensed under MIT: http://kvz.io/licenses/LICENSE-MIT
 # Copyright (c) 2014 Linaro, LTD
 # http://www.linaro.org
 #
@@ -61,4 +60,7 @@ EOL
 
 #execute playbook
 ansible-playbook -c local -s -i hosts site.yml -l ${domain}
-    
+
+#reload apache
+service apache2 restart
+
