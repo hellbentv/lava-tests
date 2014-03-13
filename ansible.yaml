@@ -5,8 +5,6 @@ metadata:
 params:
     ANSIBLE_VERSION: tip
     ANSIBLE_PROJECT: projectname
-    HTTPS_TEXT: keyword
-    HTTP_TEXT: keyword
 run:
     steps:
         - echo '### Step 1 - Generate a unique hostname'
