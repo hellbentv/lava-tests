@@ -19,8 +19,8 @@ run:
         - apt-get install -y python-pip python-dev
         
         - echo -n '### Step 3 - Install Ansible'
-        - if [ "$ANSIBLE_VERSION" != "tip" ]; then echo "${ANSIBLE_VERSION}; pip install ansible==${ANSIBLE_VERSION} ; fi
-        - if [ "$ANSIBLE_VERSION" == "tip" ]; then echo "${ANSIBLE_VERSION}; pip install ansible; fi
+        - if [ "$ANSIBLE_VERSION" != "tip" ]; then echo "${ANSIBLE_VERSION}"; pip install ansible==${ANSIBLE_VERSION} ; fi
+        - if [ "$ANSIBLE_VERSION" == "tip" ]; then echo "${ANSIBLE_VERSION}"; pip install ansible; fi
         - echo '### - Ansible Version = '`ansible --version`
         
         - echo '### Step 4 - This playbook uses a host_vars file for some variables'
