@@ -38,7 +38,7 @@ git clone ${playbook} ${workdir}
 cd ${workdir}
 
 #Create host_vars file for the domain
-cat > host_vars/${domain} <<EOL
+cat > host_vars/ansible/${domain} <<EOL
 nickname: ${domain}
 hostname: ${domain}
 role: staging
