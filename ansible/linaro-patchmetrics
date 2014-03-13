@@ -62,6 +62,7 @@ openssl_certs:
 EOL
 
 #execute playbook
+echo "### Executing ansible-playbook"
 ansible-playbook -c local -s -i hosts site.yml -l ${domain}
 
 #reload apache
