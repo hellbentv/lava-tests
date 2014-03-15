@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+#
+# linaro-jenkins-tools Ansible deployment script for LAVA job submission
+# Version v0.1.0
+# More info: 
+#
+# Copyright (c) 2014 Linaro, LTD
+# http://www.linaro.org
+#
+# Usage:
+#  ./linaro-jenkins-tools.sh domainname
+#
+
+### Configuration
+#####################################################################
+
+domain=$1
+playbook=https://git.linaro.org/infrastructure/linaro-jenkins-tools.git
+workdir=ansible
+
+
+### Functions
+#####################################################################
+
+### Runtime
+#####################################################################
+
+# Download playbook into a persistent location
+mkdir -p /opt; cd /opt
+git clone ${playbook} ${workdir}
+cd ${workdir}/ansible
+
+#execute playbook
+echo "### Executing ansible-playbook"
+ansible-playbook -c local -i hosts-devel-tcwg-ci -l "tcwg-ci:&vagrant" site.yml
+
+
+#Use the LAVA api to verify the installation and report pass'
+curl -o test http://${hn}:80/ 
+lava-test-case https-server-verification --shell grep Moved test
+
+curl -o test http://${hn}:8080/ --insecure
+lava-test-case http-server-verification --shell grep Moved test
+
+curl -o test http://${hn}:6443/ --insecure
+lava-test-case http-server-verification --shell grep Moved test
