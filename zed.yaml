@@ -1,0 +1,10 @@
+metadata:
+    name: zed.yaml
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "launch the zed server"
+run:
+    steps:
+        - apt-get install -y curl
+        - curl http://get.zedapp.org | sh
+        - ./zed
+        - while [ 1 ]; do sleep 10; echo -n '.'; done
