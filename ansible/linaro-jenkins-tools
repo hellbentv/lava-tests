@@ -26,7 +26,7 @@ workdir=ansible
 #####################################################################
 
 # running on a KVM requires a bit more memory
-dd if=/dev/zero of=/swap bs=1M seek=1024 count=1
+dd if=/dev/zero of=/swap bs=1M count=1000
 mkswap /swap
 swapon /swap
 
