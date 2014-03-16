@@ -54,7 +54,8 @@ echo "=============================="
 cat /var/log/jenkins/jenkins.log
 
 #restart jenkins service
-#service jenkins restart
+echo "restart jenkins"
+service jenkins restart
 
 #run some LAVA api tests to see if the server is up
 curl -o test http://localhost:8080 --connect-timeout=10
