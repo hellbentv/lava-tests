@@ -24,5 +24,5 @@ run:
         - if [ "$ANSIBLE_VERSION" == "tip" ]; then echo "${ANSIBLE_VERSION}"; pip install ansible; fi
         - echo '### - Ansible Version = '`ansible --version`
         
-        - echo '### Step 4 - Prepare execute ansible playbook'
+        - echo '### Step 4 - Call project-specific ansible Script'
         - . ./ansible/${ANSIBLE_PROJECT} ${hn}
