@@ -44,3 +44,6 @@ lava-test-case http-server-verification --shell grep Authentication test
 
 curl -X POST http://${hn}:8080 --user admin:admin -o test
 lava-test-case jenkins-login --shell grep Dashboard test
+
+wget http://localhost:8080/jnlpJars/jenkins-cli.jar
+java -jar jenkins-cli.jar -s http://admin:admin@localhost:8080/ list-plugins
