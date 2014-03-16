@@ -49,7 +49,7 @@ echo "=============================="
 grep IOException /var/log/jenkins/jenkins.log
 
 echo "Initial LOG File"
-echo "Initilization LOG"
+echo "Initialization LOG"
 echo "=============================="
 cat /var/log/jenkins/jenkins.log
 
