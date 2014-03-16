@@ -40,7 +40,7 @@ echo "### Executing ansible-playbook"
 ansible-playbook -c local -i hosts-devel-tcwg-ci -l "tcwg-ci:&vagrant" site.yml
 
 #Wait for services
-echo sleep 90
+echo "sleep 90"
 sleep 90
 
 # Check for exceptions in the log file
@@ -54,7 +54,7 @@ echo "=============================="
 cat /var/log/jenkins/jenkins.log
 
 #restart jenkins service
-service jenkins restart
+#service jenkins restart
 
 #run some LAVA api tests to see if the server is up
 curl -o test http://localhost:8080
