@@ -43,14 +43,24 @@ ansible-playbook -c local -i hosts-devel-tcwg-ci -l "tcwg-ci:&vagrant" site.yml
 echo sleep 90
 sleep 90
 
+# Check for exceptions in the log file
+echo "Exceptions in log file"
+echo "=============================="
+grep IOException /var/log/jenkins/jenkins.log
+
+echo "Initial LOG File"
+echo "Initilization LOG"
+echo "=============================="
+cat /var/log/jenkins/jenkins.log
+
 #restart jenkins service
 service jenkins restart
 
 #run some LAVA api tests to see if the server is up
-curl -o test http://${hn}:8080
+curl -o test http://localhost:8080
 lava-test-case http-server-verification --shell grep Authentication test
 
-curl -X POST http://${hn}:8080 --user admin:admin -o test
+curl -X POST http://localhost:8080 --user admin:admin -o test
 lava-test-case jenkins-login --shell grep Dashboard test
 
 wget http://localhost:8080/jnlpJars/jenkins-cli.jar
