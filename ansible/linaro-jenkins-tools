@@ -39,6 +39,10 @@ cd ${workdir}/ansible
 echo "### Executing ansible-playbook"
 ansible-playbook -c local -i hosts-devel-tcwg-ci -l "tcwg-ci:&vagrant" site.yml
 
+#restart jenkins service
+service jenkins restart
+
+#run some LAVA api tests to see if the server is up
 curl -o test http://${hn}:8080
 lava-test-case http-server-verification --shell grep Authentication test
 
