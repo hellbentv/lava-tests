@@ -58,10 +58,10 @@ echo "restart jenkins"
 service jenkins restart
 
 #run some LAVA api tests to see if the server is up
-curl -o test http://localhost:8080 --connect-timeout=10
+curl -o test http://localhost:8080
 lava-test-case http-server-verification --shell grep Authentication test
 
-curl -X POST http://localhost:8080 --user admin:admin -o test --connect-timeout=10
+curl -X POST http://localhost:8080 --user admin:admin -o test
 lava-test-case jenkins-login --shell grep Dashboard test
 
 wget http://localhost:8080/jnlpJars/jenkins-cli.jar
