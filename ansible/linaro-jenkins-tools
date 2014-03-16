@@ -39,8 +39,9 @@ cd ${workdir}/ansible
 echo "### Executing ansible-playbook"
 ansible-playbook -c local -i hosts-devel-tcwg-ci -l "tcwg-ci:&vagrant" site.yml
 
-#arbitrary sleep 60
-sleep 60
+#Wait for services
+echo sleep 90
+sleep 90
 
 #restart jenkins service
 service jenkins restart
