@@ -41,7 +41,7 @@ ansible-playbook -c local -i hosts-devel-tcwg-ci -l "tcwg-ci:&vagrant" site.yml
 
 #Wait for services
 echo "sleep 90"
-sleep 90
+sleep 100
 
 # Check for exceptions in the log file
 echo "Exceptions in log file"
