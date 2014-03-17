@@ -52,4 +52,5 @@ curl -X POST http://localhost:8080 --user admin:admin -o test
 lava-test-case jenkins-login --shell grep Dashboard test
 
 wget http://localhost:8080/jnlpJars/jenkins-cli.jar
-java -jar jenkins-cli.jar -s http://admin:admin@localhost:8080/ list-plugins
+numplugins=`java -jar jenkins-cli.jar -s http://admin:admin@localhost:8080/ list-plugins | wc`
+lava-test-case jenkins_plugins --result pass --measurement $numplugins --units plugins
