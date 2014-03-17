@@ -55,7 +55,10 @@ create_certs $domain
 cat > secrets.yml <<EOL
 crowd_app_name: crowdname
 crowd_app_password: crowdpw
-db_password: databaspw
+
+jira_username: bogususer
+jira_password: boguspw
+
 openssl_certs: 
     - $PWD/${domain}.pem
     - $PWD/${domain}.key
