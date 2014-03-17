@@ -27,6 +27,7 @@ function create_certs() {
     openssl genrsa -rand /dev/urandom -out ${1}.key 2048
     openssl req -new -x509 -days 3652 -key ${1}.key -out ${1}.pem \
         -subj "/C=US/ST=Colorado/L=Boulder/O=${1}.com/CN=${1}"
+    openssl req -new -key ${1}.key -out ${1}.csr
 }
 
 ### Runtime
@@ -62,6 +63,7 @@ jira_password: boguspw
 openssl_certs: 
     - $PWD/${domain}.pem
     - $PWD/${domain}.key
+    - $PWD/${domain}.csr
 EOL
 
 #execute playbook
