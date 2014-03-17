@@ -40,6 +40,11 @@ cd ${workdir}/ansible
 
 # Add the domain to the hosts file
 #echo ${domain} >> hosts
+cat > hosts <<EOL
+[${domain}]
+staging.status.linaro.org ansible_ssh_user=ubuntu role=staging install_dir=staging.status.linaro.org wsgi_name=staging.status.linaro.org.wsgi wsgi_daemon=staging.status.linaro.org site_function=status site_name=staging.status.linaro.org
+staging.roadmap.linaro.org ansible_ssh_user=ubuntu role=staging install_dir=staging.status.linaro.org wsgi_name=staging.status.linaro.org.wsgi wsgi_daemon=staging.roadmap.linaro.org site_function=roadmap site_name=staging.roadmap.linaro.org
+EOL
 
 #Create host_vars file for the domain
 #cat > host_vars/${domain} <<EOL
