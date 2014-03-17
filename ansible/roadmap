@@ -38,15 +38,15 @@ git clone ${playbook} ${workdir}
 cd ${workdir}/ansible
 
 # Add the domain to the hosts file
-echo ${domain} >> hosts
+#echo ${domain} >> hosts
 
 #Create host_vars file for the domain
-cat > host_vars/${domain} <<EOL
-nickname: ${domain}
-hostname: ${domain}
-role: staging
-patchwork_repos_path: /opt/patchwork
-EOL
+#cat > host_vars/${domain} <<EOL
+#nickname: ${domain}
+#hostname: ${domain}
+#role: staging
+#patchwork_repos_path: /opt/patchwork
+#EOL
 
 #Generate website certificates (self-signed)
 create_certs $domain
