@@ -39,27 +39,10 @@ cd ${workdir}/ansible
 echo "### Executing ansible-playbook"
 ansible-playbook -c local -i hosts-devel-tcwg-ci -l "tcwg-ci:&vagrant" site.yml
 
-#Wait for services
-echo "sleep 100"
-sleep 100
-
 # Check for exceptions in the log file
 echo "Exceptions in log file"
 echo "=============================="
 grep IOException /var/log/jenkins/jenkins.log
-
-echo "Initial LOG File"
-echo "Initialization LOG"
-echo "=============================="
-cat /var/log/jenkins/jenkins.log
-
-#stop apache service
-#echo "stop apache"
-#service apache stop
-
-#restart jenkins service
-#echo "restart jenkins"
-#service jenkins restart
 
 #run some LAVA api tests to see if the server is up
 curl -o test http://localhost:8080
