@@ -38,7 +38,9 @@ cd ${workdir}/ansible
 #execute playbook
 echo "### Executing ansible-playbook"
 ansible-playbook -c local -i hosts-devel-tcwg-ci -l "tcwg-ci:&vagrant" site.yml
-sleeep 90
+
+#added to wait for the services to start
+sleep 90
 
 # Check for exceptions in the log file
 echo "Exceptions in log file"
