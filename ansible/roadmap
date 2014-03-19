@@ -74,8 +74,8 @@ EOL
 
 #execute playbook
 echo "### Executing ansible-playbook"
-ansible-playbook -c local -i hosts site.yml -l status.linaro.org
-ansible-playbook -c local -i hosts site.yml -l roadmap.linaro.org
+#ansible-playbook -c local -i hosts site.yml -l status.linaro.org
+#ansible-playbook -c local -i hosts site.yml -l roadmap.linaro.org
 
 #reload apache
 #service apache2 restart
