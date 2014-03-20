@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+#
+# roadmap Ansible deployment script for LAVA job submission
+# Version v0.1.0
+# More info: 
+#
+# Copyright (c) 2014 Linaro, LTD
+# http://www.linaro.org
+#
+# Usage:
+#
+
+### Configuration
+#####################################################################
+domain=$1
+playbook=https://git.linaro.org/infrastructure/roadmap.git
+workdir=ansible
+
+### Functions
+#####################################################################
+function create_certs() {
+    head /dev/urandom > /dev/null
+    openssl genrsa -rand /dev/urandom -out ${1}.key 2048
+    openssl req -new -x509 -days 3652 -key ${1}.key -out ${1}.pem \
+        -subj "/C=US/ST=Colorado/L=Boulder/O=${1}.com/CN=${1}"
+    openssl req -new -key ${1}.key -out ${1}.csr \
+        -subj "/C=US/ST=Colorado/L=Boulder/O=${1}.com/CN=${1}"
+}
+
+### Runtime
+#####################################################################
+# Download playbook into a persistent location
+mkdir -p /opt; cd /opt
+git clone ${playbook} ${workdir}
+cd ${workdir}/ansible
+
+#Generate website certificates (self-signed)
+create_certs $domain
+
+#Create a secrets file so Ansible will install the secrets
+cat > secrets.yml <<EOL
+crowd_app_name: crowdname
+crowd_app_password: crowdpw
+
+jira_username: bogususer
+jira_password: boguspw
+
+openssl_certs: 
+    - $PWD/${domain}.pem
+    - $PWD/${domain}.key
+    - $PWD/${domain}.csr
+EOL
+
+#execute playbook
+echo "### Executing ansible-playbook"
+ansible-playbook -c local -i hosts site.yml -l ${domain}
+
+#reload apache
+#service apache2 restart
+
+#Use the LAVA api to verify the installation and report pass'
+curl -o test https://localhost/ --insecure
+lava-test-case https-server-verification --shell grep Status test
+curl -o test http://localhost/ --insecure
+lava-test-case http-server-verification --shell grep Moved test
