@@ -13,15 +13,12 @@
 
 ### Configuration
 #####################################################################
-
 domain=$1
 playbook=https://git.linaro.org/infrastructure/roadmap.git
 workdir=ansible
 
-
 ### Functions
 #####################################################################
-
 function create_certs() {
     head /dev/urandom > /dev/null
     openssl genrsa -rand /dev/urandom -out ${1}.key 2048
@@ -33,27 +30,10 @@ function create_certs() {
 
 ### Runtime
 #####################################################################
-
 # Download playbook into a persistent location
 mkdir -p /opt; cd /opt
 git clone ${playbook} ${workdir}
 cd ${workdir}/ansible
-
-# Add the domain to the hosts file
-#echo ${domain} >> hosts
-cat > hosts <<EOL
-[${domain}]
-staging.status.linaro.org ansible_ssh_user=ubuntu role=staging install_dir=staging.status.linaro.org wsgi_name=staging.status.linaro.org.wsgi wsgi_daemon=staging.status.linaro.org site_function=status site_name=staging.status.linaro.org
-staging.roadmap.linaro.org ansible_ssh_user=ubuntu role=staging install_dir=staging.status.linaro.org wsgi_name=staging.status.linaro.org.wsgi wsgi_daemon=staging.roadmap.linaro.org site_function=roadmap site_name=staging.roadmap.linaro.org
-EOL
-
-#Create host_vars file for the domain
-#cat > host_vars/${domain} <<EOL
-#nickname: ${domain}
-#hostname: ${domain}
-#role: staging
-#patchwork_repos_path: /opt/patchwork
-#EOL
 
 #Generate website certificates (self-signed)
 create_certs $domain
@@ -74,14 +54,13 @@ EOL
 
 #execute playbook
 echo "### Executing ansible-playbook"
-#ansible-playbook -c local -i hosts site.yml -l status.linaro.org
-#ansible-playbook -c local -i hosts site.yml -l roadmap.linaro.org
+ansible-playbook -c local -i hosts site.yml -l ${domain}
 
 #reload apache
 #service apache2 restart
 
 #Use the LAVA api to verify the installation and report pass'
-curl -o test https://${hn}/ --insecure
-lava-test-case https-server-verification --shell grep Statistics test
-curl -o test http://${hn}/ --insecure
+curl -o test https://localhost/ --insecure
+lava-test-case https-server-verification --shell grep Status test
+curl -o test http://localhost/ --insecure
 lava-test-case http-server-verification --shell grep Moved test
