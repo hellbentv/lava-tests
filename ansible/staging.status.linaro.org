@@ -7,9 +7,6 @@
 # Copyright (c) 2014 Linaro, LTD
 # http://www.linaro.org
 #
-# Usage:
-#  ./roadmap domainname
-#
 
 ### Configuration
 #####################################################################
