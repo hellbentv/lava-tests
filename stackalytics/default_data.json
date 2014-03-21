@@ -1,0 +1,104 @@
+{
+    "users": [
+        {
+            "user_name": "Antonio Terceiro",
+            "emails": [
+                "antonio.terceiro@linaro.org"
+            ],
+            "launchpad_id": "terceiro",
+            "gerrit_id": "antonio.terceiro@linaro.org",
+            "companies": [
+                {
+                    "company_name": "*independent",
+                    "end_date": null
+                },
+                {
+                    "company_name": "Linaro",
+                    "end_date": null
+                }
+            ]
+        }
+    ],
+    "repos": [
+        {
+            "uri": "http://git.linaro.org/lava/lava-server.git",
+            "module": "lava-server",
+            "aliases": [
+                "lavaserver"
+            ],
+            "organization": "lava",
+            "releases": [
+                {
+                    "tag_to": "2014.02",
+                    "release_name": "January",
+                    "tag_from": "2014.01"
+                }
+            ]
+        }
+    ],
+    "project_sources": [
+        {
+            "organization": "lava",
+            "exclude": [
+                "lava"
+            ]
+        },
+        {
+            "organization": "lava"
+        },
+        {
+            "organization": "inaro-infra"
+        }
+    ],
+    "module_groups": [
+        {
+            "module_group_name": "libra-group",
+            "modules": [
+                "libra",
+                "python-libraclient"
+            ]
+        }
+    ],
+    "releases": [
+        {
+            "release_name": "prehistory",
+            "end_date": "2014-Jan-01"
+        },
+        {
+            "release_name": "2014.01",
+            "end_date": "2014-Jan-31"
+        }
+    ],
+    "mail_lists": [
+        "http://lists.linaro.org/mailman/listinfo/linaro-validation"
+    ],
+    "project_types": [
+        {
+            "id": "all",
+            "title": "All",
+            "modules": [
+                "linaro",
+                "lava",
+                "linaro-infrastructure",
+                "unknown"
+            ]
+        },
+        {
+            "id": "linaro",
+            "title": "Linaro",
+            "modules": [
+                "linaro",
+                "linaro-infrastructure",
+                "lava"
+            ]
+        },
+        {
+            "id": "other",
+            "title": "other",
+            "child": true,
+            "modules": [
+                "official-other"
+            ]
+        }
+    ]
+}
