@@ -5,10 +5,12 @@ metadata:
 params:
     ANSIBLE_VERSION: tip
     ANSIBLE_PROJECT: projectname
+    DOMAIN_NAME: none
 run:
     steps:
         - echo '### Step 1 - Generate a unique hostname'
-        - hn='lava'`date | md5sum |cut -d' ' -f1`
+        - if [ "$ANSIBLE_VERSION" == "none" ]; then hn='lava'`date | md5sum |cut -d' ' -f1`; fi
+        - if [ "$ANSIBLE_VERSION" != "none" ]; then hn=$DOMAIN_NAME; fi
         - echo 'Hostname = '${hn}
         - echo ${hn} > /etc/hostname
         - hostname ${hn}
