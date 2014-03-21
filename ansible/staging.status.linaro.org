@@ -57,7 +57,7 @@ ansible-playbook -c local -i hosts site.yml -l ${domain}
 #service apache2 restart
 
 #Use the LAVA api to verify the installation and report pass'
-curl -o test https://localhost/ --insecure
-lava-test-case https-server-verification --shell grep Status test
-curl -o test http://localhost/ --insecure
+curl -o test https://${domain}/accounts/login/  --insecure
+lava-test-case https-server-verification --shell grep Login test
+curl -o test http://${domain}/ 
 lava-test-case http-server-verification --shell grep Moved test
