@@ -21,7 +21,7 @@ Starting a Hacking Session
 * Create a LAVA job file with your desired target and image
 * Add a lava-test-shell action to your LAVA json job file where you want hacking access
 
-.. code:: javascript
+'''
   {
       "command": "lava_test_shell",
       "parameters": {
@@ -38,6 +38,7 @@ Starting a Hacking Session
           "timeout": 3600
       }    
   }
+  '''
 
 Connecting to a Hacking Session
 ===============================
