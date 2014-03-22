@@ -1,7 +1,11 @@
 #!/bin/bash
+apt-get update
 apt-get -y install libpython2.7-dev python-pip git memcached nginx uwsgi uwsgi-plugin-python
 pip install --upgrade pip
 pip install pbr
+
+groupadd stackalytics
+useradd stackalytics -g stackalytics
 
 mkdir /opt/stack/
 chown stackalytics.stackalytics /opt/stack
@@ -32,14 +36,14 @@ EOF
 
 cat > /etc/nginx/sites-enabled/stackalytics.conf <<EOF
 server {
-	listen   80; 
-	location / {
-        	uwsgi_pass  unix:///tmp/stackalytics.sock;
-        	include     uwsgi_params;
-	}
-	location  /static/ {
-        	alias  /opt/stack/stackalytics/dashboard/static/;
-	}
+    listen   80; 
+    location / {
+        uwsgi_pass  unix:///tmp/stackalytics.sock;
+        include     uwsgi_params;
+    }
+    location  /static/ {
+        alias  /opt/stack/stackalytics/dashboard/static/;
+    }
 }
 EOF
 service uwsgi restart
