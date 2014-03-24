@@ -13,10 +13,14 @@ run:
     steps:
         - echo 8888888888 $PROJECT $REPO $REF 8888888888
         - useradd lava -p lava -m || true
-        - if ! grep -q lava /etc/passwd; then echo "lava ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers ; fi
+        - echo "lava ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
+
         - su - lava -c "git clone http://git.linaro.org/lava/lava-server.git" || true
+        - ln -s ~lava/lava-server/ /srv/lava/instances/$INSTANCE/code/current/local/lava-server || true
+
         - su - lava -c "git clone http://git.linaro.org/lava/lava-dispatcher.git" || true
-        - ln -s ~lava/lava-server/ /srv/lava/instances/$INSTANCE/code/current/local/lava-dispatcher || true
+        - ln -s ~lava/lava-dispatcher/ /srv/lava/instances/$INSTANCE/code/current/local/lava-dispatcher || true
+
         - su - lava -c "cd /srv/lava/instances/$INSTANCE/code/current; sudo ./bin/buildout" 
         - stop lava 
         - start lava 
