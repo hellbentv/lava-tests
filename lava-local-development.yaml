@@ -1,0 +1,24 @@
+metadata:
+    name: lava-local-development
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Prepare a LAVA server to begin applying cherry-picks"
+params:
+    INSTANCE: production
+install:
+    deps:
+        - git-core
+        - grep
+        - curl
+run:
+    steps:
+        - echo 8888888888 $PROJECT $REPO $REF 8888888888
+        - useradd lava -p lava -m || true
+        - if ! grep -q lava /etc/passwd; then echo "lava ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers ; fi
+        - su - lava -c "git clone http://git.linaro.org/lava/lava-server.git" || true
+        - su - lava -c "git clone http://git.linaro.org/lava/lava-dispatcher.git" || true
+        - ln -s ~lava/lava-server/ /srv/lava/instances/$INSTANCE/code/current/local/lava-dispatcher || true
+        - su - lava -c "cd /srv/lava/instances/$INSTANCE/code/current; sudo ./bin/buildout" 
+        - stop lava 
+        - start lava 
+        - curl -o test2 http://127.0.0.1
+        - lava-test-case lava-server-verification2 --shell grep LAVA test2
