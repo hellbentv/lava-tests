@@ -15,11 +15,11 @@ install:
 run:
     steps:
         - echo 8888888888 $PROJECT $REPO $REF 8888888888
-        - useradd lava -p lava -m
-        - echo "lava ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
-        - su - lava -c "git clone http://git.linaro.org/git/lava/$PROJECT.git"
-        - ln -s ~lava/$PROJECT/ /srv/lava/instances/$INSTANCE/code/current/local/$PROJECT
-        - su - lava -c "cd /srv/lava/instances/$INSTANCE/code/current; sudo ./bin/buildout"
+        - useradd lava -p lava -m || true
+        - if ! grep -q lava /etc/passwd; then echo "lava ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers ; fi
+        - su - lava -c "git clone http://git.linaro.org/lava/$PROJECT.git" || true
+        - ln -s ~lava/$PROJECT/ /srv/lava/instances/$INSTANCE/code/current/local/$PROJECT || true
+        - su - lava -c "cd /srv/lava/instances/$INSTANCE/code/current; sudo ./bin/buildout" 
         - su - lava -c "cd $PROJECT; git fetch $REPO $REF; git cherry-pick FETCH_HEAD"
         - /srv/lava/instances/$INSTANCE/bin/lava-server manage migrate
         - stop lava 
