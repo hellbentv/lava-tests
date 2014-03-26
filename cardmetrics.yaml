@@ -6,7 +6,7 @@ run:
     steps:
         - echo "calculate jirametrics"
         - cd /home/jirametrics/jirametrics
-        - python cardwalk.py
+        - /usr/bin/python cardwalk.py
         - cat ../cardwalk.csv
 parse:
     pattern: '(?P<test_case_measurement>.*?)#\s(?P<measurement>\w*?)\s'
