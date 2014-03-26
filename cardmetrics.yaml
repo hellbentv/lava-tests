@@ -1,7 +1,7 @@
 metadata:
-    name: lava-boottime
+    name: jira-metrics
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "simple test for calculating the time to boot and run lava-test-shell using uptime"
+    description: "query jira"
 run:
     steps:
         - echo "calculate jirametrics"
