@@ -8,4 +8,4 @@ run:
         - cd /home/jirametrics/jirametrics
         - /usr/bin/python cardwalk.py
 parse:
-    pattern: '##(?P<test_case_id>.*?)#\s(?P<measurement>.*?)#(?P<result>(pass|fail))#(?P<units>.*)#'
+    pattern: '^##(?P<test_case_id>.*?)#*(?P<measurement>[0-9]+?)#*(?P<result>(pass|fail))#(?P<units>[a-zA-Z0-9]+?)#'
