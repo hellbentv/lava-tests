@@ -29,7 +29,7 @@ cd ${workdir}/ansible
 
 #execute playbook
 echo "### Executing ansible-playbook"
-ansible-playbook -c local -i localhost -l localhost site.yml
+ansible-playbook -c local -i hosts -l localhost site.yml
 
 #added to wait for the services to start
 sleep 90
