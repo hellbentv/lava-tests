@@ -4,7 +4,9 @@ metadata:
     description: "simple test for calculating the time to boot and run lava-test-shell using uptime"
 run:
     steps:
-        - echo "Return uptime, though this does take in account the time to run lava-test-shell"
-        - cd /root
-        - https://git.linaro.org/people/alan.bennett/jirametrics.git
+        - echo "calculate jirametrics"
         - cd jirametrics
+        - python cardwalk.py
+        - cat ../cardwalk.csv
+parse:
+    pattern: '(?P<test_case_measurement>.*?)#\s(?P<measurement>\w*?)\s'
