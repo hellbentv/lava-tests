@@ -1,0 +1,10 @@
+metadata:
+    name: lava-boottime
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "simple test for calculating the time to boot and run lava-test-shell using uptime"
+run:
+    steps:
+        - echo "Return uptime, though this does take in account the time to run lava-test-shell"
+        - cd /root
+        - https://git.linaro.org/people/alan.bennett/jirametrics.git
+        - cd jirametrics
