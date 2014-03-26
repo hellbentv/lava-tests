@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+#
+# kernel-ci-backend Ansible deployment script for LAVA job submission
+# Version v0.1.0
+# More info: 
+#
+# Copyright (c) 2014 Linaro, LTD
+# http://www.linaro.org
+#
+#
+
+### Configuration
+#####################################################################
+
+domain=$1
+playbook=https://git.linaro.org/infrastructure/kernel-ci-backend.git
+workdir=ansible
+
+### Functions
+#####################################################################
+
+### Runtime
+#####################################################################
+
+# Download playbook into a persistent location
+mkdir -p /opt; cd /opt
+git clone ${playbook} ${workdir}
+cd ${workdir}/ansible
+
+#execute playbook
+echo "### Executing ansible-playbook"
+ansible-playbook -c local -i localhost -l localhost site.yml
+
+#added to wait for the services to start
+sleep 90
+
+curl -o test http://localhost:80
+lava-test-case http-server-verification --shell grep text test
