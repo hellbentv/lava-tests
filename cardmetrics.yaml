@@ -5,7 +5,7 @@ metadata:
 run:
     steps:
         - echo "calculate jirametrics"
-        - cd jirametrics
+        - cd /home/jirametrics/jirametrics
         - python cardwalk.py
         - cat ../cardwalk.csv
 parse:
