@@ -1,0 +1,10 @@
+metadata:
+    name: lava boottime broken name
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "simple test for calculating the time to boot and run lava-test-shell using uptime"
+run:
+    steps:
+        - echo "Return uptime, though this does take in account the time to run lava-test-shell"
+        - upsecs=$(cat /proc/uptime | cut -d ' ' -f1)
+        - echo "upsecs = $upsecs seconds"
+        - lava-test-case boottime --result pass --measurement $upsecs --units seconds
