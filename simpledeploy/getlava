@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+#
+# getlava deployment script for LAVA job submission
+# Version v0.1.0
+# More info: 
+#
+# Copyright (c) 2014 Linaro, LTD
+# http://www.linaro.org
+#
+#
+
+### Configuration
+#####################################################################
+domain=$1
+url=http://localhost:80
+playbook=http://git.linaro.org/people/alan.bennett/getlava
+workdir=/opt/ansible-deploy
+
+dockerproject=nginx-docker
+dockerrepo=http://github.com/hellbentv/nginx-docker
+dockerfile=$workdir/nginx-docker/Dockerfile
+nginxconf=$workdir/$nginxproject/nginx.conf
+
+webproject=getlava
+webrepo=http://git.linaro.org/people/alan.bennett/getlava
+webdata=$workdir/$webproject/www
+webtext=Automated
+
+dockercmd="docker run -d -v $nginxconf:/etc/nginx/sites.enabled/default \
+              -v $webdata:/usr/share/nginx/html -p 80:80 -i nginx_img_1"
+
+### Dependencies
+#####################################################################
+#install docker
+echo 'Install Docker'
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
+sh -c "echo deb http://get.docker.io/ubuntu docker main\
+> /etc/apt/sources.list.d/docker.list"
+apt-get update
+apt-get -y install lxc-docker
+echo 'Docker installed - '`docker --version`
+ 
+### Functions
+#####################################################################
+
+### Runtime
+#####################################################################
+
+### nginx-docker installation
+#####################################################################
+git clone $dockerrepo $workdir/$dockerproject
+
+#build the Docker image
+docker build -t nginx_img_1 $workdir/$dockerproject
+echo 'Docker image created - '`docker ps`
+
+#Download site specific content
+echo 'Get web content'
+git clone $webrepo $workdir/$webproject
+
+#run nginx and reference the site specific content
+echo 'Add execution to rc.local and run the new docker image'
+echo $dockercmd > /etc/rc.local
+chmod +x /etc/rc.local
+/etc/rc.local
+
+#added to wait for the services to start
+sleep 2
+
+curl $url
+curl -o test $url
+lava-test-case http-server-verification --shell grep $webtext test
