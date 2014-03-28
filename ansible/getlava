@@ -26,6 +26,9 @@ webrepo=http://git.linaro.org/people/alan.bennett/getlava
 webdata=$workdir/$webproject/www
 webtext=Automated
 
+dockercmd="docker run -d -v $nginxconf:/etc/nginx/sites.enabled/default \
+              -v $webdata:/usr/share/nginx/html -p 80:80 -i nginx_img_1"
+
 ### Dependencies
 #####################################################################
 #install docker
@@ -48,21 +51,18 @@ echo 'Docker installed - '`docker --version`
 git clone $dockerrepo $workdir/$dockerproject
 
 #build the Docker image
-docker build -t nginx_img_1 /$workdir/$dockerproject/Dockerfile
+docker build -t nginx_img_1 $workdir/$dockerproject
 echo 'Docker image created - '`docker ps`
 
 #Download site specific content
 echo 'Get web content'
-git clone http://git.linaro.org/people/alan.bennett/getlava $workdir/getlava
+git clone $webrepo $workdir/$webproject
 
 #run nginx and reference the site specific content
 echo 'Add execution to rc.local and run the new docker image'
-dockercmd="docker run -d -v $nginxconf:/etc/nginx/sites.enabled/default \
-              -v $webdata:/usr/share/nginx/html -p 80:80 -i nginx_img_1"
 echo $dockercmd > /etc/rc.local
 chmod +x /etc/rc.local
-./etc/rc.local
-
+/etc/rc.local
 
 #added to wait for the services to start
 sleep 2
