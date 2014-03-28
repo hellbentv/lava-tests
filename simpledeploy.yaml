@@ -1,0 +1,19 @@
+metadata:
+    name: simpledeployment
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Install services"
+params:
+    PROJECT: none
+    DOMAIN_NAME: none
+run:
+    steps:
+        - echo '### Step 1 - Generate a unique hostname'
+        - if [ "$DOMAIN_NAME" == "none" ]; then hn='lava'`date | md5sum |cut -d' ' -f1`; fi
+        - if [ "$DOMAIN_NAME" != "none" ]; then hn=$DOMAIN_NAME; fi
+        - echo 'Hostname = '${hn}
+        - echo ${hn} > /etc/hostname
+        - hostname ${hn}
+        - echo '127.0.0.1 '${hn} >> /etc/hosts
+        
+        - echo '### Step 4 - Call project-specific script'
+        - . ./simpledeploy/${PROJECT} ${hn}
