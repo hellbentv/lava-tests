@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+#
+# getlava deployment script for LAVA job submission
+# Version v0.1.0
+# More info: 
+#
+# Copyright (c) 2014 Linaro, LTD
+# http://www.linaro.org
+#
+#
+
+### Configuration
+#####################################################################
+
+domain=$1
+playbook=http://git.linaro.org/people/alan.bennett/getlava
+workdir=ansible-deploy
+
+### Functions
+#####################################################################
+
+### Runtime
+#####################################################################
+
+# Download playbook into a persistent location
+mkdir -p /opt; cd /opt
+git clone ${playbook} ${workdir}
+mkdir -p /opt/${workdir}/ansible
+cd ${workdir}/ansible
+
+#execute playbook
+echo "### Executing ansible-playbook"
+## ansible-playbook -c local site.yml
+
+#manual site deployment
+cd /root
+git clone http://github.com/hellbentv/nginx-docker
+git clone http://git.linaro.org/people/alan.bennett/getlava
+
+cd nginx-docker
+docker build -t nginx_img_1
+
+cd /root
+docker run -name nginx_cont -i -v /root/nginx-docker/nginx.conf:/etc/nginx/sites.enabled/default \
+    -v /root/getlava/www:/usr/share/nginx/html -p 80:80 -i -t nginx_img_1
+
+#added to wait for the services to start
+sleep 5
+
+curl -o test http://localhost:80
+lava-test-case http-server-verification --shell grep Automated test
