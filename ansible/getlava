@@ -16,6 +16,7 @@ domain=$1
 playbook=http://git.linaro.org/people/alan.bennett/getlava
 workdir=ansible-deploy
 
+ 
 ### Functions
 #####################################################################
 
@@ -36,6 +37,9 @@ echo "### Executing ansible-playbook"
 cd /root
 git clone http://github.com/hellbentv/nginx-docker
 git clone http://git.linaro.org/people/alan.bennett/getlava
+
+#install docker
+apt-get -y install lxc-docker
 
 cd nginx-docker
 docker build -t nginx_img_1
