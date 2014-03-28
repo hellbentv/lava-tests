@@ -36,20 +36,37 @@ echo "### Executing ansible-playbook"
 #manual site deployment
 cd /root
 git clone http://github.com/hellbentv/nginx-docker
-git clone http://git.linaro.org/people/alan.bennett/getlava
 
 #install docker
+echo 'Install Docker'
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
+sh -c "echo deb http://get.docker.io/ubuntu docker main\
+> /etc/apt/sources.list.d/docker.list"
+apt-get update
 apt-get -y install lxc-docker
+echo 'Docker installed - '`docker --version`
 
+#build the Docker image
+echo 'Build nginx Dockerimage'
 cd nginx-docker
-docker build -t nginx_img_1
-
+docker build -t nginx_img_1 .
 cd /root
-docker run -name nginx_cont -i -v /root/nginx-docker/nginx.conf:/etc/nginx/sites.enabled/default \
-    -v /root/getlava/www:/usr/share/nginx/html -p 80:80 -i -t nginx_img_1
+echo 'Docker image created - '
+docker ps
+
+#get site specific content
+echo 'Get web content'
+cd /root 
+git clone http://git.linaro.org/people/alan.bennett/getlava
+
+#run nginx and reference the site specific content
+echo 'Execute docker image'
+docker run -d -v /root/nginx-docker/nginx.conf:/etc/nginx/sites.enabled/default \
+    -v /root/getlava/www:/usr/share/nginx/html -p 80:80 -i nginx_img_1
 
 #added to wait for the services to start
-sleep 5
+sleep 2
 
+curl http://localhost:80
 curl -o test http://localhost:80
 lava-test-case http-server-verification --shell grep Automated test
