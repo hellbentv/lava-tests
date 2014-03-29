@@ -51,6 +51,8 @@ apt-get -y install supervisor
 
 ### nginx-docker installation
 #####################################################################
+if [[ -z "$workdir" ]]; exit; fi
+if [ -d "$workdir/$dockerproject" ]; rm -f $workdir/$dockerproject; fi
 git clone $dockerrepo $workdir/$dockerproject
 
 #build the Docker image
@@ -59,10 +61,11 @@ echo 'Docker image created - '`docker ps`
 
 #Download site specific content
 echo 'Get web content'
+if [ -d "$workdir/$webproject" ]; rm $workdir/$webproject; fi
 git clone $webrepo $workdir/$webproject
 
 #run nginx and reference the site specific content
-cat > /etc/supervisor/conf.d/$project.conf <<EOL
+cat > /etc/supervisor/conf.d/$webproject.conf <<EOL
 [program:$webproject]
 command=$dockercmd
 autorestart=true
