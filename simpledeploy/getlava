@@ -70,6 +70,7 @@ cat > /etc/supervisor/conf.d/$webproject.conf <<EOL
 command=$dockercmd
 autorestart=true
 EOL
+`$dockercmd`
 
 #added to wait for the services to start
 sleep 2
