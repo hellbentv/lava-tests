@@ -33,9 +33,10 @@ dockercmd="docker run -d -v $nginxconf:/etc/nginx/sites.enabled/default \
 #####################################################################
 #install docker
 echo 'Install Docker'
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
+sudo apt-key adv --keyserver keyserver.ubuntu.com \
+    --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
 sh -c "echo deb http://get.docker.io/ubuntu docker main\
-> /etc/apt/sources.list.d/docker.list"
+    > /etc/apt/sources.list.d/docker.list"
 apt-get update
 apt-get -y install lxc-docker
 echo 'Docker installed - '`docker --version`
@@ -49,7 +50,7 @@ apt-get -y install supervisor
 ### Runtime
 #####################################################################
 
-### nginx-docker installation
+### build nginx-docker image
 #####################################################################
 if [[ -z "$workdir" ]]; then exit; fi
 if [ -d "$workdir/$dockerproject" ]; then rm -rf $workdir/$dockerproject; fi
@@ -59,22 +60,28 @@ git clone $dockerrepo $workdir/$dockerproject
 docker build -t nginx_img_1 $workdir/$dockerproject
 echo 'Docker image created - '`docker ps`
 
-#Download site specific content
-echo 'Get web content'
-if [ -d "$workdir/$webproject" ]; then rm -rf $workdir/$webproject; fi
-git clone $webrepo $workdir/$webproject
-
+### install / configure supervisor to manage docker instance
+#####################################################################
 #run nginx and reference the site specific content
 cat > /etc/supervisor/conf.d/$webproject.conf <<EOL
 [program:$webproject]
 command=$dockercmd
 autorestart=true
 EOL
+
+
+### get web content
+#####################################################################
+echo 'Get web content'
+if [ -d "$workdir/$webproject" ]; then rm -rf $workdir/$webproject; fi
+git clone $webrepo $workdir/$webproject
+
+### launch docker instance
+#####################################################################
 `$dockercmd`
 
-#added to wait for the services to start
-sleep 2
-
+### perform simple test to check install was successful
+#####################################################################
 curl $url
 curl -o test $url
 lava-test-case http-server-verification --shell grep $webtext test
