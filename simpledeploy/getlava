@@ -61,7 +61,7 @@ echo 'Docker image created - '`docker ps`
 
 #Download site specific content
 echo 'Get web content'
-if [ -d "$workdir/$webproject" ]; rm -rf $workdir/$webproject; fi
+if [ -d "$workdir/$webproject" ]; then rm -rf $workdir/$webproject; fi
 git clone $webrepo $workdir/$webproject
 
 #run nginx and reference the site specific content
