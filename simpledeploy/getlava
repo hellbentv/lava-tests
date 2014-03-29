@@ -13,18 +13,21 @@
 #####################################################################
 domain=$1
 url=http://localhost:80
-playbook=http://git.linaro.org/people/alan.bennett/getlava
 workdir=/opt/simpledeploy/$domain
 
 dockerproject=nginx-docker
-dockerrepo=http://github.com/hellbentv/nginx-docker
-dockerfile=$workdir/nginx-docker/Dockerfile
-nginxconf=$workdir/$nginxproject/nginx.conf
+dockerrepo=http://github.com/hellbentv/$dockerproject
+dockerdir=$workdir/$dockerproject
+
+dockerfile=$dockerdir/Dockerfile
+nginxconf=$dockerdir/nginx.conf
 
 webproject=getlava
 webrepo=http://git.linaro.org/people/alan.bennett/getlava
-webdata=$workdir/$webproject/www
-webtext=Automated
+webdir=$workdir/$webproject
+
+webdata=$webdir/www
+teststring=Automated
 
 dockercmd="docker run -d -v $nginxconf:/etc/nginx/sites.enabled/default \
               -v $webdata:/usr/share/nginx/html -p 80:80 -i nginx_img_1"
@@ -52,9 +55,8 @@ apt-get -y install supervisor
 
 ### build nginx-docker image
 #####################################################################
-if [[ -z "$workdir" ]]; then exit; fi
 if [ -d "$workdir/$dockerproject" ]; then rm -rf $workdir/$dockerproject; fi
-git clone $dockerrepo $workdir/$dockerproject
+git clone $dockerrepo $dockerdir
 
 #build the Docker image
 docker build -t nginx_img_1 $workdir/$dockerproject
@@ -73,15 +75,15 @@ EOL
 ### get web content
 #####################################################################
 echo 'Get web content'
-if [ -d "$workdir/$webproject" ]; then rm -rf $workdir/$webproject; fi
-git clone $webrepo $workdir/$webproject
+if [ -d "$webdir" ]; then rm -rf $webdir; fi
+git clone $webrepo $webdir
 
 ### launch docker instance
 #####################################################################
-`$dockercmd`
+service supervisor restart
 
 ### perform simple test to check install was successful
 #####################################################################
 curl $url
 curl -o test $url
-lava-test-case http-server-verification --shell grep $webtext test
+lava-test-case http-server-verification --shell grep $teststring test
