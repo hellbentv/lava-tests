@@ -14,7 +14,7 @@
 domain=$1
 url=http://localhost:80
 playbook=http://git.linaro.org/people/alan.bennett/getlava
-workdir=/opt/ansible-deploy
+workdir=/opt/simpledeploy/domain
 
 dockerproject=nginx-docker
 dockerrepo=http://github.com/hellbentv/nginx-docker
