@@ -39,7 +39,10 @@ sh -c "echo deb http://get.docker.io/ubuntu docker main\
 apt-get update
 apt-get -y install lxc-docker
 echo 'Docker installed - '`docker --version`
- 
+
+#install supervisor
+apt-get -y install supervisor
+
 ### Functions
 #####################################################################
 
@@ -59,10 +62,11 @@ echo 'Get web content'
 git clone $webrepo $workdir/$webproject
 
 #run nginx and reference the site specific content
-echo 'Add execution to rc.local and run the new docker image'
-echo $dockercmd > /etc/rc.local
-chmod +x /etc/rc.local
-/etc/rc.local
+cat > /etc/supervisor/conf.d/$project.conf <<EOL
+[program:$webproject]
+command=$dockercmd
+autorestart=true
+EOL
 
 #added to wait for the services to start
 sleep 2
