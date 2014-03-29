@@ -51,8 +51,8 @@ apt-get -y install supervisor
 
 ### nginx-docker installation
 #####################################################################
-if [[ -z "$workdir" ]]; exit; fi
-if [ -d "$workdir/$dockerproject" ]; rm -f $workdir/$dockerproject; fi
+if [[ -z "$workdir" ]]; then exit; fi
+if [ -d "$workdir/$dockerproject" ]; then rm -f $workdir/$dockerproject; fi
 git clone $dockerrepo $workdir/$dockerproject
 
 #build the Docker image
