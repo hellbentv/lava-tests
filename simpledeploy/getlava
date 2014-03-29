@@ -81,6 +81,7 @@ git clone $webrepo $webdir
 ### launch docker instance
 #####################################################################
 service supervisor restart
+sleep 5
 
 ### perform simple test to check install was successful
 #####################################################################
