@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+#
+# getlava deployment script for LAVA job submission
+# Version v0.1.0
+# More info: 
+#
+# Copyright (c) 2014 Linaro, LTD
+# http://www.linaro.org
+#
+#
+
+### Configuration
+#####################################################################
+domain=$1
+url=http://localhost:80
+workdir=/opt/simpledeploy/$domain
+
+webdata=$webdir/www
+teststring=Automated
+
+### Dependencies
+#####################################################################
+apt-get update
+apt-get -y install embdebian-archive-keyring
+echo deb http://people.linaro.org/~neil.williams/lava sid main >> /etc/apt/sources.list.d/lava.list
+apt-get update
+
+
+### Functions
+#####################################################################
+
+### Runtime
+#####################################################################
+
+### 
+#####################################################################
+
+apt-get -y install postgresql
+apt-get -y install lava-server
+a2dissite 000-default
+a2ensite lava-server
+apache2ctl restart
+service lava-server restart
+
+
+
+### get web content
+#####################################################################
+echo 'Get web content'
+if [ -d "$webdir" ]; then rm -rf $webdir; fi
+git clone $webrepo $webdir
+
+### launch docker instance
+#####################################################################
+service supervisor restart
+sleep 5
+
+### perform simple test to check install was successful
+#####################################################################
+curl $url
+curl -o test $url
+lava-test-case http-server-verification --shell grep $teststring test
