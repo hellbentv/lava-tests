@@ -16,15 +16,17 @@ url=http://localhost:80
 workdir=/opt/simpledeploy/$domain
 
 webdata=$webdir/www
-teststring=Automated
+teststring=LAVA
 
 ### Dependencies
 #####################################################################
-apt-get update
-apt-get -y install embdebian-archive-keyring
+wget http://http.us.debian.org/debian/pool/main/e/emdebian-archive-keyring/emdebian-archive-keyring_2.0.3_all.deb
+dpkg -i emdebian-archive-keyring_2.0.3_all.deb
+
 echo deb http://people.linaro.org/~neil.williams/lava sid main >> /etc/apt/sources.list.d/lava.list
 apt-get update
 
+apt-get -y install curl
 
 ### Functions
 #####################################################################
@@ -36,24 +38,11 @@ apt-get update
 #####################################################################
 
 apt-get -y install postgresql
-apt-get -y install lava-server
+apt-get -q -y install lava-server
 a2dissite 000-default
 a2ensite lava-server
 apache2ctl restart
 service lava-server restart
-
-
-
-### get web content
-#####################################################################
-echo 'Get web content'
-if [ -d "$webdir" ]; then rm -rf $webdir; fi
-git clone $webrepo $webdir
-
-### launch docker instance
-#####################################################################
-service supervisor restart
-sleep 5
 
 ### perform simple test to check install was successful
 #####################################################################
