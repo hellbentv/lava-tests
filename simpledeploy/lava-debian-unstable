@@ -38,7 +38,7 @@ apt-get -y install curl
 #####################################################################
 
 apt-get -y install postgresql
-apt-get -q -y install lava-server
+DEBIAN_FRONTEND=noninteractive apt-get -q -y --assume-yes install lava-server
 a2dissite 000-default
 a2ensite lava-server
 apache2ctl restart
