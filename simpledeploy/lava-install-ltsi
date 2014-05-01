@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+#
+# deployment script for LAVA job submission
+# Version v0.1.0
+# More info: 
+#
+# Copyright (c) 2014 Linaro, LTD
+# http://www.linaro.org
+#
+#
+
+### Configuration
+#####################################################################
+domain=$1
+url=http://localhost:80
+workdir=/opt/simpledeploy/$domain
+
+teststring=LAVA
+
+### Dependencies
+#####################################################################
+wget http://http.us.debian.org/debian/pool/main/e/emdebian-archive-keyring/emdebian-archive-keyring_2.0.3_all.deb
+dpkg -i emdebian-archive-keyring_2.0.3_all.deb
+
+echo deb http://people.linaro.org/~neil.williams/lava sid main >> /etc/apt/sources.list.d/lava.list
+apt-get update
+
+apt-get -y install curl
+
+### Functions
+#####################################################################
+
+### Runtime
+#####################################################################
+
+### LAVA Installation
+#####################################################################
+
+apt-get -y install postgresql
+DEBIAN_FRONTEND=noninteractive apt-get -q -y -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confnew install lava-server
+a2dissite 000-default
+a2ensite lava-server
+apache2ctl restart
+service lava-server restart
+
+### LAVA Installation - test
+#####################################################################
+curl $url
+curl -o test $url
+lava-test-case http-server-verification --shell grep $teststring test
+
+### perform simple test to check install was successful
+#####################################################################
+curl $url
+
