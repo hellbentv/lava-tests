@@ -1,0 +1,62 @@
+
+#!/bin/bash
+
+git clone https://github.com/siemens/codeface.git
+
+apt-get -y install git
+
+apt-get -y install r-base nodejs npm
+
+debconf-set-selections <<< 'mysql-server mysql-server/root_password password your_password'
+debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password your_password'
+apt-get -y install mysql-server mysql-workbench
+
+apt-get -y install python-mysqldb sinntp texlive default-jdk \
+                        mysql-common mysql-client mysql-server python-dev \
+                        exuberant-ctags nodejs npm git subversion \
+                        libgles2-mesa python-pip sloccount graphviz
+apt-get -y install libpoppler-dev libpoppler-glib-dev
+apt-get -y install libyaml-dev
+
+
+R CMD javareconf
+
+cat > prepR <<EOF
+local({r <- getOption("repos"); 
+       r["CRAN"] <- "http://cran.r-project.org"; options(repos=r)})
+source("http://bioconductor.org/biocLite.R")
+biocLite("Rgraphviz")
+
+install.packages(c("statnet", "ggplot2", "tm", "tm.plugin.mail", "optparse",
+                   "igraph", "zoo", "xts", "lubridate", "xtable",
+                   "reshape", "wordnet", "stringr", "yaml", "plyr",
+                   "scales", "gridExtra", "scales", "RMySQL",
+                   "RCurl", "mgcv", "shiny", "dtw", "httpuv", "devtools",
+                   "corrgram", "logging", "png", "rjson", "lsa"), dependencies=T)
+
+devtools::install_github("shiny-gridster", "wch")
+install.packages(c("snatm", "tm-plugin-mail"),
+                   repos="http://R-Forge.R-project.org")
+EOF
+R --save < prepR
+
+
+cat > /usr/local/bin/RD <<EOF
+#!/bin/bash
+
+# Setting this actually seems to cause problems, so comment out for now
+# export R_LIBS_SITE=${R_LIBS_SITE-'/usr/lib/R-devel/lib/R/library:/usr/local/lib/R/site-library:/usr/lib/R/site-library::/usr/lib/R/library'}
+
+export PATH="/usr/local/lib/R-devel/bin:$PATH"
+R "$@"
+EOF
+
+chmod 755 /usr/local/bin/RD
+
+
+
+
+svn checkout svn://r-forge.r-project.org/svnroot/tm-plugin-mail/
+pushd tm-plugin-mail/pkg; R CMD INSTALL .; popd
+svn checkout svn://r-forge.r-project.org/svnroot/snatm
+pushd snatm/pkg; R CMD INSTALL .; popd
