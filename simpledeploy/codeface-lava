@@ -1,14 +1,25 @@
-
 #!/bin/bash
 
-git clone https://github.com/siemens/codeface.git
+BASEDIR=/opt
+CFDIR=$BASEDIR/codeface
+mysqlpassword=pass123
 
 apt-get -y install git
 
-apt-get -y install r-base nodejs npm
+#use simpledeploy/nodejs
+#apt-get -y install nodejs
+apt-get -y install npm
 
-debconf-set-selections <<< 'mysql-server mysql-server/root_password password your_password'
-debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password your_password'
+# install newest tip packages
+sudo -E apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
+echo "deb http://cran.r-project.org/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list
+apt-get update
+apt-get -y install r-base r-base-dev
+
+npm install addressparser express js-yaml mysql
+
+debconf-set-selections <<< 'mysql-server mysql-server/root_password password $mysqlpassword'
+debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password $mysqlpassword'
 apt-get -y install mysql-server mysql-workbench
 
 apt-get -y install python-mysqldb sinntp texlive default-jdk \
@@ -17,6 +28,7 @@ apt-get -y install python-mysqldb sinntp texlive default-jdk \
                         libgles2-mesa python-pip sloccount graphviz
 apt-get -y install libpoppler-dev libpoppler-glib-dev
 apt-get -y install libyaml-dev
+apt-get install libcurl4-gnutls-dev
 
 
 R CMD javareconf
@@ -33,10 +45,10 @@ install.packages(c("statnet", "ggplot2", "tm", "tm.plugin.mail", "optparse",
                    "scales", "gridExtra", "scales", "RMySQL",
                    "RCurl", "mgcv", "shiny", "dtw", "httpuv", "devtools",
                    "corrgram", "logging", "png", "rjson", "lsa"), dependencies=T)
-
+install.packages(c("devtools","httr", "NLP"))
 devtools::install_github("shiny-gridster", "wch")
-install.packages(c("snatm", "tm-plugin-mail"),
-                   repos="http://R-Forge.R-project.org")
+#install.packages(c("snatm", "tm-plugin-mail"),
+#                   repos="http://R-Forge.R-project.org")
 EOF
 R --save < prepR
 
@@ -53,10 +65,24 @@ EOF
 
 chmod 755 /usr/local/bin/RD
 
-
-
-
 svn checkout svn://r-forge.r-project.org/svnroot/tm-plugin-mail/
 pushd tm-plugin-mail/pkg; R CMD INSTALL .; popd
+svn checkout svn://r-forge.r-project.org/svnroot/tm/
+pushd tm/pkg; R CMD INSTALL .; popd
 svn checkout svn://r-forge.r-project.org/svnroot/snatm
 pushd snatm/pkg; R CMD INSTALL .; popd
+
+
+sudo -E pip install pyyaml progressbar python-ctags
+
+
+mkdir -p $CFDIR
+git clone https://github.com/siemens/codeface $CFDIR
+
+cat > mysql_user.sql <<EOF
+CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON * . * TO 'newuser'@'localhost';
+EOF
+
+msyql -uroot -$mysqlpassword < mysql_user.sql
+mysql -ucodeface -pcodeface < codeface_schema.sql
