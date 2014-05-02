@@ -1,0 +1,13 @@
+#!/bin/bash
+
+apt-get -y install git
+
+git clone https://github.com/joyent/node
+pushd node
+./configure
+make
+make install
+
+update-alternatives --install /usr/bin/node node /usr/bin/nodejs 99
+popd
+ 
