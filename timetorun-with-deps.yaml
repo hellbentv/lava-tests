@@ -2,6 +2,13 @@ metadata:
     name: lava-time-to-run
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "simple test for calculating the time to boot and run lava-test-shell using uptime"
+install:
+    deps:
+        - linux-libc-dev
+        - build-essential
+        - git
+    git-repos:
+        - git://git.linaro.org/power/pm-qa.git
 run:
     steps:
         - echo "Return uptime- this is time to execute the lava-test-shell script"
