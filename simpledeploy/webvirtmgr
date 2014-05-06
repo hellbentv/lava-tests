@@ -1,0 +1,169 @@
+#!/usr/bin/env bash
+#
+# getlava deployment script for LAVA job submission
+# Version v0.1.0
+# More info: 
+#
+# Copyright (c) 2014 Linaro, LTD
+# http://www.linaro.org
+#
+#
+
+### Configuration
+#####################################################################
+domain=$1
+url=http://localhost:8000
+workdir=/opt/simpledeploy/$domain
+
+dockerproject=nginx-docker
+dockerrepo=http://github.com/hellbentv/$dockerproject
+dockerdir=$workdir/$dockerproject
+
+dockerfile=$dockerdir/Dockerfile
+nginxconf=$dockerdir/nginx.conf
+nginxconf=/etc/nginx/conf.d/webvirtmgr.conf
+
+webproject=webvirtmgr
+webrepo=http://git.linaro.org/people/alan.bennett/getlava
+webdir=$workdir/$webproject
+
+## webdata=$webdir/www
+webdata=/var/www
+teststring=Automated
+
+dockercmd="docker run -d -v $nginxconf:/etc/nginx/sites.enabled/default \
+              -v $webdata:/usr/share/nginx/html -p 80:80 -i nginx_img_1"
+
+### Dependencies
+#####################################################################
+#install docker
+echo 'Install Docker'
+sudo apt-key adv --keyserver keyserver.ubuntu.com \
+    --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
+sh -c "echo deb http://get.docker.io/ubuntu docker main\
+    > /etc/apt/sources.list.d/docker.list"
+apt-get update
+apt-get -y install lxc-docker
+echo 'Docker installed - '`docker --version`
+
+#install supervisor
+apt-get -y install supervisor
+
+### Functions
+#####################################################################
+
+### Runtime
+#####################################################################
+
+### build nginx-docker image
+#####################################################################
+#if [ -d "$workdir/$dockerproject" ]; then rm -rf $workdir/$dockerproject; fi
+#git clone $dockerrepo $dockerdir
+
+#build the Docker image
+#docker build -t nginx_img_1 $workdir/$dockerproject
+#echo 'Docker image created - '`docker ps`
+
+### install / configure supervisor to manage docker instance
+#####################################################################
+#run nginx and reference the site specific content
+#cat > /etc/supervisor/conf.d/$webproject.conf <<EOL
+#[program:$webproject]
+#command=$dockercmd
+#autorestart=true
+#EOL
+
+
+### get web content
+#####################################################################
+sudo apt-get install git python-pip python-libvirt python-libxml2 novnc supervisor nginx 
+
+git clone git://github.com/retspen/webvirtmgr.git
+cd webvirtmgr
+sudo pip install -r requirements.txt 
+
+### create django admin "admin":"password123"
+#####################################################################
+cat > initial_data.json <<EOL
+[
+{
+  "pk": 1, 
+  "model": "auth.user", 
+  "fields": {
+    "username": "admin", 
+    "first_name": "", 
+    "last_name": "", 
+    "is_active": true, 
+    "is_superuser": true, 
+    "is_staff": true, 
+    "last_login": "2014-05-06T03:55:44.079Z", 
+    "groups": [], 
+    "user_permissions": [], 
+    "password": "pbkdf2_sha256$10000$eKLKGmyRwkRP$rqZDfxCxXkTT0MMK+098XXMhB1gt/jU3dmc0SoIqwDQ=", 
+    "email": "admin@localhost.com", 
+    "date_joined": "2014-05-06T03:55:44.079Z"
+  }
+}
+]
+EOL
+./manage.py syncdb --noinput
+./manage.py collectstatic --noinput
+chown www-data:www-data -R .
+cd ..
+mv webvirtmgr $webdata
+
+cat > $nginxconf <<EOL
+server {
+    listen 80 default_server;
+
+    server_name $hostname;
+    #access_log /var/log/nginx/webvirtmgr_access_log; 
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-for $proxy_add_x_forwarded_for;
+        proxy_set_header Host $host:$server_port;
+        proxy_set_header X-Forwarded-Proto $remote_addr;
+    }
+}
+EOL
+
+### install novnc
+#####################################################################
+service novnc stop
+update-rc.d -f novnc remove
+rm /etc/init.d/novnc
+cp /var/www/webvirtmgr/conf/initd/webvirtmgr-novnc-ubuntu /etc/init.d/webvirtmgr-novnc
+## todo - script has hardcoded path to www/...
+service webvirtmgr-novnc start
+update-rc.d webvirtmgr-novnc defaults
+chown -R www-data:www-data /var/www/webvirtmgr
+
+cat > /etc/supervisor/conf.d/0_webvirtmgr.conf <<EOL
+[program:webvirtmgr]
+command=/usr/bin/python $webdata/webvirtmgr/manage.py run_gunicorn -c $webdata/webvirtmgr/conf/gunicorn.conf.py
+directory=$webdata/webvirtmgr
+autostart=true
+autorestart=true
+stdout_logfile=/var/log/supervisor/webvirtmgr.log
+redirect_stderr=true
+user=www-data
+EOL
+
+
+
+echo 'Get web content'
+if [ -d "$webdir" ]; then rm -rf $webdir; fi
+git clone $webrepo $webdir
+
+### launch docker instance
+#####################################################################
+service supervisor restart
+sleep 5
+
+### perform simple test to check install was successful
+#####################################################################
+curl $url
+curl -o test $url
+lava-test-case http-server-verification --shell grep $teststring test
