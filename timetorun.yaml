@@ -1,0 +1,10 @@
+metadata:
+    name: lava-time-to-run
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "simple test for calculating the time to boot and run lava-test-shell using uptime"
+run:
+    steps:
+        - echo "Return uptime- this is time to execute the lava-test-shell script"
+        - upsecs=$(cat /proc/uptime | cut -d ' ' -f1)
+        - echo "upsecs = $upsecs seconds"
+        - lava-test-case time-to-run --result pass --measurement $upsecs --units seconds
