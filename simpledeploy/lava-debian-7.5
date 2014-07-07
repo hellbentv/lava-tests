@@ -31,7 +31,7 @@ apt-get update
 ### configure debconf preseed values for an automated installation
 #####################################################################
 echo "BUILD preseeds"
-echo > preseed.txt <<<EOF
+cat > preseed.txt <<EOF
 lava-server   lava-worker/db-port string 5432
 lava-server   lava-worker/db-user string lava-server
 lava-server   lava-server/master boolean false
