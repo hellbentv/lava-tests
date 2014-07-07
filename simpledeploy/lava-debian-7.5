@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+#
+# getlava deployment script for LAVA job submission
+# Version v0.1.0
+# More info: 
+#
+# Copyright (c) 2014 Linaro, LTD
+# http://www.linaro.org
+#
+#
+
+### Configuration
+#####################################################################
+domain=$1
+url=http://localhost:80
+workdir=/opt/simpledeploy/$domain
+
+webdata=$webdir/www
+teststring=LAVA
+
+### Generic Dependencies
+#####################################################################
+apt-get -y install curl
+
+### LAVA installation preparation
+#####################################################################
+apt-get -y install emdebian-archive-keyring
+echo deb http://people.linaro.org/~neil.williams/lava sid main >> /etc/apt/sources.list.d/lava.list
+apt-get update
+
+### configure debconf preseed values for an automated installation
+#####################################################################
+echo "BUILD preseeds"
+echo > preseed.txt <<<EOF
+lava-server   lava-worker/db-port string 5432
+lava-server   lava-worker/db-user string lava-server
+lava-server   lava-server/master boolean false
+lava-server   lava-worker/master-instance-name string test-instance
+lava-server   lava-worker/db-server string localhost
+lava-server   lava-worker/db-pass string imnotsecure
+lava-server   lava-worker/db-name string lava-server
+EOF
+echo "SET preseeds"
+debconf-set-selections < preseed.txt
+echo "SHOW preseeds"
+debconf-show lava-server
+
+### Install LAVA
+#####################################################################
+
+apt-get -y install postgresql
+apt-get -y install lava
+a2dissite 000-default
+a2ensite lava-server
+apache2ctl restart
+service apache2 restart
+
+### perform simple test to check install was successful
+#####################################################################
+curl $url
+curl -o test $url
+lava-test-case http-server-verification --shell grep $teststring test
