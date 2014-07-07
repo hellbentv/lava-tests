@@ -1,0 +1,9 @@
+metadata:
+    name: boot-time
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "simple test for time using uptime"
+    type: measurement
+    focus: boot
+run:
+    steps:
+        - lava-test-case boottime --result pass --measurement $upsecs --units seconds
