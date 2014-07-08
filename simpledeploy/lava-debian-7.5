@@ -67,11 +67,10 @@ debconf-show lava-server
 ### Install LAVA
 #####################################################################
 
-apt-get -y install postgresql
-apt-get -y install lava
+DEBIAN_FRONTEND=noninteractive apt-get -q -y -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confnew install postgresql
+DEBIAN_FRONTEND=noninteractive apt-get -q -y -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confnew install lava
 a2dissite 000-default
 a2ensite lava-server
-apache2ctl restart
 service apache2 restart
 
 ### perform simple test to check install was successful
