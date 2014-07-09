@@ -6,4 +6,5 @@ metadata:
     focus: boot
 run:
     steps:
+        - upsecs=$(cat /proc/uptime | cut -d ' ' -f1)
         - lava-test-case boottime --result pass --measurement $upsecs --units seconds
