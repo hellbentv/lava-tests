@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Install JAVA
+# ====================
+apt-get install openjdk-7-jre-headless
+
+# Download SWARM
+# ====================
+wget http://maven.jenkins-ci.org/content/repositories/releases/org/jenkins-ci/plugins/swarm-client/1.16/swarm-client-1.16-jar-with-dependencies.jar -O swarm.jar
+
+# Fixup hosts
+# ====================
+echo 127.0.0.1 `hostname` >> /etc/hosts
+
+# Execute and connect to tcwg build server
+# ====================
+java -jar swarm.jar -description "LAVA provisioned slave" -mode exclusive -name SWARM-x86KVM -labels kvm -master http://tcwg.ci.linaro.org
+
