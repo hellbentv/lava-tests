@@ -28,6 +28,7 @@ go get github.com/kennygrant/sanitize
 
 go get github.com/russross/blackfriday
 go get github.com/dutchcoders/go-virustotal
+
 grunt serve
 grunt build
 
