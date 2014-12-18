@@ -9,6 +9,8 @@ run:
         - echo "Return uptime, though this does take in account the time to run lava-test-shell"
         - upsecs=$(cat /proc/uptime | cut -d ' ' -f1)
         - echo "upsecs = $upsecs seconds"
-        - if [ "$upsecs" >= "$threshold" ]; then lava-test-case boottime-threshold --result pass --measurement $upsecs --units seconds ; fi
-        - if [ "$upsecs" < "$threshold" ]; then lava-test-case boottime-threshold --result fail --measurement $upsecs --units seconds ; fi
-        
+        - iupsecs=`echo $upsecs | awk '{print int ($1 + .5)}'`
+        - echo "upsecs rounded = $iupsecs seconds"
+        - if [ $iupsecs -ge $threshold ]; then echo "Pass: $iupsecs >= $threshold"; result=pass; else echo "Fail: $iupsecs < $threshold"; result=pass; fi
+        - lava-test-case boottime-threshold --result $result --measurement $iupsecs --units seconds ; fi
+
