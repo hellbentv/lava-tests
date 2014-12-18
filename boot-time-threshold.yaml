@@ -11,6 +11,6 @@ run:
         - echo "upsecs = $upsecs seconds"
         - iupsecs=`echo $upsecs | awk '{print int ($1 + .5)}'`
         - echo "upsecs rounded = $iupsecs seconds"
-        - if [ $iupsecs -ge $threshold ]; then echo "Pass: $iupsecs >= $threshold"; result=pass; else echo "Fail: $iupsecs < $threshold"; result=pass; fi
+        - if [ $iupsecs -ge $threshold ]; then echo "Pass $iupsecs >= $threshold"; result=pass; else echo "Fail $iupsecs < $threshold"; result=pass; fi
         - lava-test-case boottime-threshold --result $result --measurement $iupsecs --units seconds ; fi
 
