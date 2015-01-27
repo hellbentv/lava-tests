@@ -28,4 +28,4 @@ export PLATFORM_LINUX_FORCE_LLGS_LOCAL=1
 ninja && ninja check-lldb
 EOL
 
-. ~/lldb-setup
+. ~/lldb-setup.sh
