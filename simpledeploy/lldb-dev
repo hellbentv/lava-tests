@@ -6,9 +6,9 @@ apt-get -y install libxml2-dev libxslt1-dev doxygen
 
 cat > $HOME/lldb-setup.sh <<EOL
 #!/bin/bash
-ROOT_DIR=$HOME/ll/googd
-mkdir -p $ROOT_DIR
-cd $ROOT_DIR
+ROOT_DIR=\$HOME/ll/googd
+mkdir -p \$ROOT_DIR
+cd \$ROOT_DIR
 git clone http://github.com/tfiala/lldb.git
 (cd lldb && git checkout dev-thread-state-coordinator)
 git clone http://llvm.org/git/llvm.git
@@ -19,7 +19,7 @@ git clone http://github.com/tfiala/lldb-tools
 cd llvm/tools
 ln -s ../../clang clang
 ln -s ../../lldb lldb
-cd $ROOT_DIR
+cd \$ROOT_DIR
 mkdir -p build/host
 cd build/host
 cmake -GNinja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_LINKER=ld.gold -DCMAKE_BUILD_TYPE=Debug ../../llvm
