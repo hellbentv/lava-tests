@@ -2,7 +2,10 @@
 
 apt-get -y update
 apt-get -y install build-essential cmake ninja-build git libedit-dev ncurses-dev python-dev swig clang-3.5 ccache binutils-gold php5-curl
+apt-get -y install libxml2-dev libxslt1-dev doxygen 
 
+cat > $HOME/lldb-setup.sh <<EOL
+#!/bin/bash
 ROOT_DIR=$HOME/ll/googd
 mkdir -p $ROOT_DIR
 cd $ROOT_DIR
@@ -23,4 +26,6 @@ cmake -GNinja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_LINK
 # use lldb-gdbserver when debugging local processes
 export PLATFORM_LINUX_FORCE_LLGS_LOCAL=1
 ninja && ninja check-lldb
+EOL
 
+. ~/lldb-setup
