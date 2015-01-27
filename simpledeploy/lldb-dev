@@ -1,7 +1,7 @@
 #!/bin/bash
 
 apt-get -y update
-apt-get -y install install build-essential cmake ninja-build git libedit-dev ncurses-dev python-dev swig clang-3.5 ccache binutils-gold php5-curl
+apt-get -y install build-essential cmake ninja-build git libedit-dev ncurses-dev python-dev swig clang-3.5 ccache binutils-gold php5-curl
 
 ROOT_DIR=$HOME/ll/googd
 mkdir -p $ROOT_DIR
