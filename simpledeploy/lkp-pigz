@@ -1,0 +1,11 @@
+#!/bin/bash
+
+apt-get -y update
+apt-get -y install ruby git
+apt-get -y install pigz
+
+git clone git://git.kernel.org/pub/scm/linux/kernel/git/wfg/lkp-tests.git
+
+pushd lkp-tests/tests
+./pigz
+popd
